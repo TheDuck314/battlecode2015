@@ -1,0 +1,16 @@
+.installationinformation
+AllowedPackages.txt
+DisallowedClasses.txt
+MethodCosts.txt
+Uninstaller/
+art/
+*.jar
+bc.conf
+bin/
+build.xml
+doc/
+lib/
+music/
+sound/
+version.txt
+*~
