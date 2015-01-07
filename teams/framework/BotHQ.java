@@ -6,7 +6,7 @@ public class BotHQ extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
         MessageBoard.setDefaultChannelValues();
-        Debug.init("rally");
+        Debug.init("supply");
         while (true) {
             try {
                 turn();
@@ -24,33 +24,49 @@ public class BotHQ extends Bot {
 
         directStrategy();
 
-        int numBeavers = typeCounts[RobotType.BEAVER.ordinal()];
-        if (numBeavers < 2) {
-            if (rc.isCoreReady()) trySpawnBeaver();
+        if (droneLoc != null && ourHQ.distanceSquaredTo(droneLoc) < GameConstants.SUPPLY_TRANSFER_RADIUS_SQUARED) {
+            rc.transferSupplies((int) rc.getSupplyLevel(), droneLoc);
+        } else {
+            Supply.shareSupply();
         }
-
-        Supply.shareSupply();
     }
 
     static int[] typeCounts;
     static boolean attackMode = false;
 
     static int numTowers;
+    static int numBarracks;
     static int numMiners;
     static int numSoldiers;
     static int numHelipads;
     static int numMinerFactories;
     static int numAerospaceLabs;
     static int numLaunchers;
+    static int numBeavers;
+    static int numTankFactories;
+    static int numTanks;
+    static int numBashers;
+    static int numSupplyDepots;
+    static int numDrones;
+
+    static int totalSupplyUpkeep;
+    static double totalSupplyGenerated;
+    static double supplyDepotsNeeded;
+
+    static MapLocation droneLoc;
 
     private static void updateStrategicInfo() {
         numTowers = rc.senseTowerLocations().length;
 
         RobotInfo[] allAllies = rc.senseNearbyRobots(999999, us);
 
+        totalSupplyUpkeep = 0;
         typeCounts = new int[RobotType.values().length];
         for (RobotInfo ally : allAllies) {
             typeCounts[ally.type.ordinal()]++;
+            totalSupplyUpkeep += ally.type.supplyUpkeep;
+
+            if (ally.type == RobotType.DRONE) droneLoc = ally.location;
         }
 
         numMinerFactories = typeCounts[RobotType.MINERFACTORY.ordinal()];
@@ -59,34 +75,93 @@ public class BotHQ extends Bot {
         numHelipads = typeCounts[RobotType.HELIPAD.ordinal()];
         numAerospaceLabs = typeCounts[RobotType.AEROSPACELAB.ordinal()];
         numLaunchers = typeCounts[RobotType.LAUNCHER.ordinal()];
+        numBeavers = typeCounts[RobotType.BEAVER.ordinal()];
+        numBarracks = typeCounts[RobotType.BARRACKS.ordinal()];
+        numTankFactories = typeCounts[RobotType.TANKFACTORY.ordinal()];
+        numTanks = typeCounts[RobotType.TANK.ordinal()];
+        numBashers = typeCounts[RobotType.BASHER.ordinal()];
+        numSupplyDepots = typeCounts[RobotType.SUPPLYDEPOT.ordinal()];
+        numDrones = typeCounts[RobotType.DRONE.ordinal()];
+
+        totalSupplyGenerated = GameConstants.SUPPLY_GEN_BASE
+                * (GameConstants.SUPPLY_GEN_MULTIPLIER + Math.pow(numSupplyDepots, GameConstants.SUPPLY_GEN_EXPONENT));
+        if (totalSupplyUpkeep < GameConstants.SUPPLY_GEN_BASE * GameConstants.SUPPLY_GEN_MULTIPLIER) {
+            supplyDepotsNeeded = 0;
+        } else {
+            supplyDepotsNeeded = Math.pow(totalSupplyUpkeep / GameConstants.SUPPLY_GEN_BASE - GameConstants.SUPPLY_GEN_MULTIPLIER,
+                    1.0 / GameConstants.SUPPLY_GEN_EXPONENT);
+        }
+
+        Debug.indicate("supply", 0, "total supply upkeep = " + totalSupplyUpkeep);
+        Debug.indicate("supply", 1, "total supply generated = " + totalSupplyGenerated);
+        Debug.indicate("supply", 2, "supply depots needed = " + supplyDepotsNeeded);
     }
 
     private static void directStrategy() throws GameActionException {
 
-        boolean makeMiners = true;
-        if (rc.getTeamOre() < 500 && numMiners > 30 && numMiners > numLaunchers) {
-            makeMiners = false;
-        }
-        MessageBoard.MAKE_MINERS.writeBoolean(makeMiners);
+        RobotType desiredBuilding;
 
-        if (numMinerFactories < 2) {
-            MessageBoard.DESIRED_BUILDING.writeRobotType(RobotType.MINERFACTORY);
+        // Choose what building to make
+        if (supplyDepotsNeeded > numSupplyDepots) {
+            desiredBuilding = RobotType.SUPPLYDEPOT;
+        } else if (numMinerFactories < 2) {
+            desiredBuilding = RobotType.MINERFACTORY;
+        } else if (numBarracks < 1) {
+            desiredBuilding = RobotType.BARRACKS;
+        } else if (numTankFactories < 2) {
+            desiredBuilding = RobotType.TANKFACTORY;
         } else if (numHelipads < 1) {
-            MessageBoard.DESIRED_BUILDING.writeRobotType(RobotType.HELIPAD);
+            desiredBuilding = RobotType.HELIPAD;
         } else {
-            if (numAerospaceLabs < 2 * numMinerFactories) {
-                MessageBoard.DESIRED_BUILDING.writeRobotType(RobotType.AEROSPACELAB);
-            } else {
-                MessageBoard.DESIRED_BUILDING.writeRobotType(RobotType.MINERFACTORY);
-            }
+            desiredBuilding = RobotType.TANKFACTORY;
+        }
+        MessageBoard.DESIRED_BUILDING.writeRobotType(desiredBuilding);
+
+        // Choose what units to make
+        boolean makeBashers = false;
+        boolean makeBeavers = false;
+        boolean makeCommanders = false;
+        boolean makeComputers = false;
+        boolean makeDrones = false;
+        boolean makeLaunchers = false;
+        boolean makeMiners = false;
+        boolean makeSoldiers = false;
+        boolean makeTanks = false;
+
+        if (numBeavers < 1 || (numMinerFactories >= 2 && numBeavers < 2)) {
+            makeBeavers = true;
         }
 
+        if (numMiners < 30 || numMiners < 0.5 * numBashers) {
+            makeMiners = true;
+        }
+
+        if (numDrones < 1) {
+            makeDrones = true;
+        }
+
+        makeTanks = true;
+
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.BASHER, makeBashers);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMMANDER, makeCommanders);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMPUTER, makeComputers);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.DRONE, makeDrones);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.LAUNCHER, makeLaunchers);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.MINER, makeMiners);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.SOLDIER, makeSoldiers);
+        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.TANK, makeTanks);
+
+        if (makeBeavers) {
+            if (rc.isCoreReady()) trySpawnBeaver();
+        }
+
+        // Choose the rally point
         if (!attackMode) {
-            if (numLaunchers >= 6) {
+            if (numTanks >= 15) {
                 attackMode = true;
             }
         } else {
-            if (numLaunchers <= 3) {
+            if (numTanks <= 5) {
                 attackMode = false;
             }
         }
@@ -109,7 +184,7 @@ public class BotHQ extends Bot {
         MessageBoard.RALLY_LOC.writeMapLocation(rallyLoc);
     }
 
-    // Unbuffed attack range^2 is 24:
+    // Unbuffed attack range^2 is 24 (same as towers)
     // At two towers range is buffed to 35
     // At five towers HQ does splash damage
     // ........ ........ ........

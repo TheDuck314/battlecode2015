@@ -9,6 +9,10 @@ public class RobotPlayer {
                 BotHQ.loop(theRC);
                 break;
 
+            case TOWER:
+                BotTower.loop(theRC);
+                break;
+
             case BEAVER:
                 BotBeaver.loop(theRC);
                 break;
@@ -17,24 +21,15 @@ public class RobotPlayer {
                 BotMiner.loop(theRC);
                 break;
 
-            case TOWER:
-                BotTower.loop(theRC);
-                break;
-
-            case MINERFACTORY:
-                BotMinerFactory.loop(theRC);
-                break;
-
-            case BARRACKS:
-                BotBarracks.loop(theRC);
-                break;
-
             case SOLDIER:
-                BotSoldier.loop(theRC);
+            case BASHER:
+            case TANK:
+            case COMMANDER:
+                BotGenericFighter.loop(theRC);
                 break;
 
-            case AEROSPACELAB:
-                BotAerospaceLab.loop(theRC);
+            case DRONE:
+                BotSupplyRunner.loop(theRC);
                 break;
 
             case LAUNCHER:
@@ -45,17 +40,18 @@ public class RobotPlayer {
                 BotMissile.loop(theRC);
                 break;
 
-            case HANDWASHSTATION:
+            case AEROSPACELAB:
+            case BARRACKS:
             case HELIPAD:
-            case SUPPLYDEPOT:
+            case MINERFACTORY:
             case TANKFACTORY:
             case TECHNOLOGYINSTITUTE:
             case TRAININGFIELD:
-            case BASHER:
-            case COMMANDER:
+                BotGenericProducer.loop(theRC);
+
+            case HANDWASHSTATION:
+            case SUPPLYDEPOT:
             case COMPUTER:
-            case DRONE:
-            case TANK:
                 BotDoNothing.loop(theRC);
                 break;
 

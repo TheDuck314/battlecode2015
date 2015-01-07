@@ -2,7 +2,7 @@ package framework;
 
 import battlecode.common.*;
 
-public class BotMiner extends Bot {
+public class BotSupplyRunner extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
         Debug.init("supply");
@@ -19,12 +19,6 @@ public class BotMiner extends Bot {
     private static void turn() throws GameActionException {
         here = rc.getLocation();
 
-        if (rc.isWeaponReady()) Combat.shootAtNearbyEnemies();
-        
-        if (rc.isCoreReady()) Mining.tryMine();
-
-        Supply.shareSupply();
-        
-        Supply.requestResupplyIfNecessary();
+        if(rc.isCoreReady()) Supply.runSupplies();
     }
 }

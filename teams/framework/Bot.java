@@ -13,7 +13,6 @@ public class Bot {
     
     protected static void init(RobotController theRC) throws GameActionException {
         rc = theRC;
-        MessageBoard.init(theRC);
         
         us = rc.getTeam();
         them = us.opponent();

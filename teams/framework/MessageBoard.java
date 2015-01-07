@@ -5,18 +5,15 @@ import battlecode.common.*;
 public enum MessageBoard {
     DESIRED_BUILDING(0),
     RALLY_LOC(1),
-    MAKE_MINERS(3);
+    NEEDIEST_SUPPLY_LOC(3),
+    MAX_SUPPLY_NEEDED(5),    
+    CONSTRUCTION_ORDERS(100);
 
     public static void setDefaultChannelValues() throws GameActionException {
         DESIRED_BUILDING.writeRobotType(RobotType.MINERFACTORY);
-        RALLY_LOC.writeMapLocation(new MapLocation(rc.senseHQLocation().x, rc.senseHQLocation().y));
-        MAKE_MINERS.writeBoolean(true);
-    }
-
-    private static RobotController rc;
-
-    public static void init(RobotController theRC) {
-        rc = theRC;
+        RALLY_LOC.writeMapLocation(new MapLocation(Bot.rc.senseHQLocation().x, Bot.rc.senseHQLocation().y));
+        
+        // construction orders are set to false by default
     }
 
     private final int channel;
@@ -26,11 +23,11 @@ public enum MessageBoard {
     }
 
     public void writeInt(int data) throws GameActionException {
-        rc.broadcast(channel, data);
+        Bot.rc.broadcast(channel, data);
     }
 
     public int readInt() throws GameActionException {
-        return rc.readBroadcast(channel);
+        return Bot.rc.readBroadcast(channel);
     }
 
     public void incrementInt() throws GameActionException {
@@ -46,12 +43,12 @@ public enum MessageBoard {
     }
 
     public void writeMapLocation(MapLocation loc) throws GameActionException {
-        rc.broadcast(channel, loc.x);
-        rc.broadcast(channel+1, loc.y);
+        Bot.rc.broadcast(channel, loc.x);
+        Bot.rc.broadcast(channel+1, loc.y);
     }
 
     public MapLocation readMapLocation() throws GameActionException {
-        return new MapLocation(rc.readBroadcast(channel), rc.readBroadcast(channel+1));
+        return new MapLocation(Bot.rc.readBroadcast(channel), Bot.rc.readBroadcast(channel+1));
     }
     
     public void writeRobotType(RobotType rt) throws GameActionException {
@@ -60,5 +57,13 @@ public enum MessageBoard {
     
     public RobotType readRobotType() throws GameActionException {
         return RobotType.values()[readInt()];
+    }
+    
+    public void writeConstructionOrder(RobotType rt, boolean order) throws GameActionException {
+        Bot.rc.broadcast(channel + rt.ordinal(), order ? 1 : 0);
+    }
+    
+    public boolean readConstructionOrder(RobotType rt) throws GameActionException {
+        return Bot.rc.readBroadcast(channel + rt.ordinal()) == 1;
     }
 }

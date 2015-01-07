@@ -1,8 +1,6 @@
 package framework;
 
-import battlecode.common.GameActionException;
-import battlecode.common.MapLocation;
-import battlecode.common.TerrainTile;
+import battlecode.common.*;
 
 public class Mining extends Bot {
     static MapLocation mineDest = null;
@@ -12,15 +10,25 @@ public class Mining extends Bot {
     public static void tryMine() throws GameActionException {
         if (mineDest != null) {
             if (here.equals(mineDest)) {
-                rc.setIndicatorString(2, "" + rc.senseOre(here));
                 if (rc.senseOre(here) >= ORE_EXHAUSTED) {
+                    if (rc.senseNearbyRobots(2, us).length >= 3) {
+                        Direction randDir = Direction.values()[(int) (8 * Math.random())];
+                        if (rc.canMove(randDir) && rc.senseOre(here.add(randDir)) > rc.senseOre(here)) {
+                            rc.move(randDir);
+                            return;
+                        }
+                    }
                     rc.mine();
                     return;
                 } else {
                     mineDest = null;
                 }
             } else {
-                if (rc.senseNearbyRobots(mineDest, 0, null).length != 0) {
+                if (rc.senseOre(here) >= ORE_EXHAUSTED) {
+                    mineDest = here;
+                    rc.mine();
+                    return;
+                } else if (rc.senseNearbyRobots(mineDest, 0, null).length != 0) {
                     mineDest = null;
                 }
             }
