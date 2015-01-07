@@ -103,7 +103,7 @@ public class BotHQ extends Bot {
         RobotType desiredBuilding;
 
         // Choose what building to make
-        if (supplyDepotsNeeded > numSupplyDepots) {
+        if (1.2 * supplyDepotsNeeded > numSupplyDepots) {
             desiredBuilding = RobotType.SUPPLYDEPOT;
         } else if (numMinerFactories < 2) {
             desiredBuilding = RobotType.MINERFACTORY;
@@ -127,7 +127,7 @@ public class BotHQ extends Bot {
 
         int numBeaversNeeded = 1;
         if (numMinerFactories >= 2) numBeaversNeeded = 2;
-        int missingSupplyDepots = 1 + (int) (supplyDepotsNeeded - numSupplyDepots);
+        int missingSupplyDepots = 1 + (int) (1.2 * supplyDepotsNeeded - numSupplyDepots);
         if (missingSupplyDepots > numBeaversNeeded) numBeaversNeeded = missingSupplyDepots;
 
         if (numBeavers < numBeaversNeeded) {

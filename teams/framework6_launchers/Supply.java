@@ -30,7 +30,7 @@ public class Supply extends Bot {
     public static void requestResupplyIfNecessary() throws GameActionException {
         if (Clock.getRoundNum() % 2 == 1) return; // can only request supply on even rounds
 
-        int lookaheadTurns = 30;
+        double lookaheadTurns = Math.sqrt(here.distanceSquaredTo(ourHQ));
         int supplyNeededHere = (int) (lookaheadTurns * rc.getType().supplyUpkeep - rc.getSupplyLevel());
 
         if (supplyNeededHere <= 0) return;

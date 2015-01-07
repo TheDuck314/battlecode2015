@@ -27,25 +27,27 @@ public class BotBeaver extends Bot {
 
         if (rc.isCoreReady()) {
             if (hangOutLoc == null || Util.numAlliedBuildingsAdjacent(hangOutLoc) > 0
-                    || (here != hangOutLoc && rc.senseNearbyRobots(hangOutLoc, 0, us).length > 0) || rc.senseTerrainTile(hangOutLoc) == TerrainTile.VOID
-                    || rc.senseTerrainTile(hangOutLoc) == TerrainTile.OFF_MAP) {
-                MapLocation searchCenter = new MapLocation((3 * here.x + ourHQ.x) / 4, (3 * here.y + ourHQ.y) / 4);
+                    || (here != hangOutLoc && rc.senseNearbyRobots(hangOutLoc, 0, us).length > 0) || rc.senseTerrainTile(hangOutLoc) != TerrainTile.NORMAL) {
+                MapLocation searchCenter = here; // new MapLocation((3 * here.x + ourHQ.x) / 4, (3 * here.y + ourHQ.y) / 4);
                 for (int radius = 1;; radius++) {
                     MapLocation[] locs = MapLocation.getAllMapLocationsWithinRadiusSq(searchCenter, radius * radius);
 
                     for (MapLocation loc : locs) {
-                        if (Util.numAlliedBuildingsAdjacent(loc) == 0) {
-                            TerrainTile terrain = rc.senseTerrainTile(loc);
-                            if (terrain != TerrainTile.VOID && terrain != TerrainTile.OFF_MAP) {
+                        // if (loc.distanceSquaredTo(searchCenter) > (radius - 1) * (radius - 1)) {
+                        TerrainTile terrain = rc.senseTerrainTile(loc);
+                        if (terrain == TerrainTile.NORMAL) {
+                            if (Util.numAlliedBuildingsAdjacent(loc) == 0) {
                                 hangOutLoc = loc;
                                 return;
                             }
                         }
+                        // }
                     }
 
                 }
             }
 
+            Debug.indicate("hangout", 0, "going to hang out at " + hangOutLoc.toString());
             Nav.goTo(hangOutLoc);
         }
 

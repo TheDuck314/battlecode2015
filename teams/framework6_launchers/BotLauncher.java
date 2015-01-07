@@ -63,12 +63,19 @@ public class BotLauncher extends Bot {
         MapLocation loc = here;
         while (true) {
             loc = loc.add(loc.directionTo(enemyLoc));
-            if (rc.senseNearbyRobots(loc, 0, null).length > 0) {
+            RobotInfo[] robotInWay = rc.senseNearbyRobots(loc, 0, null);
+            if (robotInWay.length > 0 && robotInWay[0].type != RobotType.MISSILE) {
                 clearPath = false;
                 break;
             }
             if (loc.isAdjacentTo(enemyLoc)) {
-                clearPath = rc.senseNearbyRobots(loc, 2, us).length == 0;
+                RobotInfo[] alliesInFriendlyFire = rc.senseNearbyRobots(loc, 2, us);
+                for (RobotInfo ally : alliesInFriendlyFire) {
+                    if (ally.type != RobotType.MISSILE) {
+                        clearPath = false;
+                        break;
+                    }
+                }
                 break;
             }
         }
@@ -76,11 +83,12 @@ public class BotLauncher extends Bot {
         if (clearPath) {
             Debug.indicate("launch", 0, "launching at enemy at " + enemyLoc.toString());
             Direction dir = here.directionTo(enemyLoc);
-            rc.launchMissile(dir);
-            MissileGuidance.setMissileTarget(here.add(dir), enemyLoc);
-            return true;
-        } else {
-            return false;
+            if (rc.canLaunch(dir)) {
+                rc.launchMissile(dir);
+                MissileGuidance.setMissileTarget(here.add(dir), enemyLoc);
+                return true;
+            }
         }
+        return false;
     }
 }
