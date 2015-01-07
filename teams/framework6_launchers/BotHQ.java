@@ -1,4 +1,4 @@
-package framework6_tanks;
+package framework6_launchers;
 
 import battlecode.common.*;
 
@@ -25,11 +25,7 @@ public class BotHQ extends Bot {
         directStrategy();
 
         if (droneLoc != null && ourHQ.distanceSquaredTo(droneLoc) < GameConstants.SUPPLY_TRANSFER_RADIUS_SQUARED) {
-            try {
-                rc.transferSupplies((int) rc.getSupplyLevel(), droneLoc);
-            } catch (Exception e) {
-                System.out.println("Couldn't transfer supplies to drone at " + droneLoc.toString());
-            }
+            rc.transferSupplies((int) rc.getSupplyLevel(), droneLoc);
         } else {
             Supply.shareSupply();
         }
@@ -65,8 +61,8 @@ public class BotHQ extends Bot {
         RobotInfo[] allAllies = rc.senseNearbyRobots(999999, us);
 
         totalSupplyUpkeep = 0;
-        typeCounts = new int[RobotType.values().length];
         droneLoc = null;
+        typeCounts = new int[RobotType.values().length];
         for (RobotInfo ally : allAllies) {
             typeCounts[ally.type.ordinal()]++;
             totalSupplyUpkeep += ally.type.supplyUpkeep;
@@ -111,14 +107,10 @@ public class BotHQ extends Bot {
             desiredBuilding = RobotType.SUPPLYDEPOT;
         } else if (numMinerFactories < 2) {
             desiredBuilding = RobotType.MINERFACTORY;
-        } else if (numBarracks < 1) {
-            desiredBuilding = RobotType.BARRACKS;
-        } else if (numTankFactories < 2) {
-            desiredBuilding = RobotType.TANKFACTORY;
         } else if (numHelipads < 1) {
             desiredBuilding = RobotType.HELIPAD;
         } else {
-            desiredBuilding = RobotType.TANKFACTORY;
+            desiredBuilding = RobotType.AEROSPACELAB;
         }
         MessageBoard.DESIRED_BUILDING.writeRobotType(desiredBuilding);
 
@@ -133,11 +125,16 @@ public class BotHQ extends Bot {
         boolean makeSoldiers = false;
         boolean makeTanks = false;
 
-        if (numBeavers < 1 || (numMinerFactories >= 2 && numBeavers < 2)) {
+        int numBeaversNeeded = 1;
+        if (numMinerFactories >= 2) numBeaversNeeded = 2;
+        int missingSupplyDepots = 1 + (int) (supplyDepotsNeeded - numSupplyDepots);
+        if (missingSupplyDepots > numBeaversNeeded) numBeaversNeeded = missingSupplyDepots;
+
+        if (numBeavers < numBeaversNeeded) {
             makeBeavers = true;
         }
 
-        if (numMiners < 30 || numMiners < 0.5 * numBashers) {
+        if (numMiners < 30) {
             makeMiners = true;
         }
 
@@ -145,7 +142,7 @@ public class BotHQ extends Bot {
             makeDrones = true;
         }
 
-        makeTanks = true;
+        makeLaunchers = true;
 
         MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.BASHER, makeBashers);
         MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMMANDER, makeCommanders);
@@ -162,11 +159,11 @@ public class BotHQ extends Bot {
 
         // Choose the rally point
         if (!attackMode) {
-            if (numTanks >= 15) {
+            if (numLaunchers >= 6) {
                 attackMode = true;
             }
         } else {
-            if (numTanks <= 5) {
+            if (numLaunchers <= 3) {
                 attackMode = false;
             }
         }
