@@ -1,4 +1,4 @@
-package framework;
+package framework6_tanks;
 
 import battlecode.common.*;
 
@@ -53,6 +53,7 @@ public class Mining extends Bot {
 
                 if (bestDest != null) {
                     mineDest = bestDest;
+                    rc.yield(); // this process can take a long time
                     break;
                 }
             }

@@ -1,4 +1,4 @@
-package framework;
+package framework6_tanks;
 
 import battlecode.common.GameConstants;
 

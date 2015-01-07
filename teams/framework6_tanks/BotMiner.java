@@ -1,8 +1,8 @@
-package framework;
+package framework6_tanks;
 
 import battlecode.common.*;
 
-public class BotGenericFighter extends Bot {
+public class BotMiner extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
         Debug.init("supply");
@@ -19,18 +19,12 @@ public class BotGenericFighter extends Bot {
     private static void turn() throws GameActionException {
         here = rc.getLocation();
 
-        if (rc.isWeaponReady()) {
-            if (rc.getType() != RobotType.BASHER) {
-                Combat.shootAtNearbyEnemies();
-            }
-
-            if (rc.isCoreReady()) {
-                MapLocation rallyLoc = MessageBoard.RALLY_LOC.readMapLocation();
-                Nav.goTo(rallyLoc);
-            }
-        }
+        if (rc.isWeaponReady()) Combat.shootAtNearbyEnemies();
+        
+        if (rc.isCoreReady()) Mining.tryMine();
 
         Supply.shareSupply();
+        
         Supply.requestResupplyIfNecessary();
     }
 }

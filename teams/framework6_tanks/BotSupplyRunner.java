@@ -1,12 +1,11 @@
-package framework;
+package framework6_tanks;
 
 import battlecode.common.*;
 
-public class BotMissile extends Bot {
+public class BotSupplyRunner extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
-        rc = theRC;
-        target = MissileGuidance.getMissileTarget(rc.getLocation());
-        rc.setIndicatorString(0, target.toString());
+        Bot.init(theRC);
+        Debug.init("supply");
         while (true) {
             try {
                 turn();
@@ -17,12 +16,9 @@ public class BotMissile extends Bot {
         }
     }
 
-    static MapLocation target;
-
     private static void turn() throws GameActionException {
-        if (rc.senseNearbyRobots(2, rc.getTeam().opponent()).length > 0) rc.explode();
         here = rc.getLocation();
-        Direction dir = here.directionTo(target);
-        if (rc.canMove(dir)) rc.move(dir);
+
+        if(rc.isCoreReady()) Supply.runSupplies();
     }
 }
