@@ -1,11 +1,11 @@
-package framework6_launchers;
+package framework7;
 
 import battlecode.common.*;
 
 public class BotBeaver extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
-        Debug.init("hangout");
+        Debug.init("bfs");
         while (true) {
             try {
                 turn();
@@ -28,12 +28,11 @@ public class BotBeaver extends Bot {
         if (rc.isCoreReady()) {
             if (hangOutLoc == null || Util.numAlliedBuildingsAdjacent(hangOutLoc) > 0
                     || (here != hangOutLoc && rc.senseNearbyRobots(hangOutLoc, 0, us).length > 0) || rc.senseTerrainTile(hangOutLoc) != TerrainTile.NORMAL) {
-                MapLocation searchCenter = here; // new MapLocation((3 * here.x + ourHQ.x) / 4, (3 * here.y + ourHQ.y) / 4);
+                MapLocation searchCenter = here; 
                 for (int radius = 1;; radius++) {
                     MapLocation[] locs = MapLocation.getAllMapLocationsWithinRadiusSq(searchCenter, radius * radius);
 
                     for (MapLocation loc : locs) {
-                        // if (loc.distanceSquaredTo(searchCenter) > (radius - 1) * (radius - 1)) {
                         TerrainTile terrain = rc.senseTerrainTile(loc);
                         if (terrain == TerrainTile.NORMAL) {
                             if (Util.numAlliedBuildingsAdjacent(loc) == 0) {
@@ -41,17 +40,13 @@ public class BotBeaver extends Bot {
                                 return;
                             }
                         }
-                        // }
                     }
 
                 }
             }
 
-            Debug.indicate("hangout", 0, "going to hang out at " + hangOutLoc.toString());
             Nav.goTo(hangOutLoc);
         }
-
-        Supply.shareSupply();
     }
 
     private static void tryBuildSomething() throws GameActionException {

@@ -1,4 +1,4 @@
-package framework6_launchers;
+package framework7;
 
 import battlecode.common.*;
 
