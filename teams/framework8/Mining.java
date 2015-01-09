@@ -1,4 +1,4 @@
-package framework7;
+package framework8;
 
 import battlecode.common.*;
 

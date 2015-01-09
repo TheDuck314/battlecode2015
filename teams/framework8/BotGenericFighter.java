@@ -1,4 +1,4 @@
-package framework7;
+package framework8;
 
 import battlecode.common.*;
 
@@ -21,6 +21,8 @@ public class BotGenericFighter extends Bot {
 
         Supply.shareSupply();
         Supply.requestResupplyIfNecessary();
+
+        MeasureMapSize.checkForMapEdges();
 
         if (rc.isWeaponReady()) {
             if (rc.getType() != RobotType.BASHER) {

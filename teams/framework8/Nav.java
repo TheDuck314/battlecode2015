@@ -1,4 +1,4 @@
-package framework7;
+package framework8;
 
 import battlecode.common.*;
 
@@ -21,7 +21,9 @@ public class Nav extends Bot {
     private static Direction bugLookStartDir;
     private static int bugRotationCount;
     private static int bugMovesSinceSeenObstacle = 0;
-
+    
+    public static int minBfsInitRound = 0;
+    
     private static boolean tryMoveDirect() throws GameActionException {
         Direction toDest = here.directionTo(dest);
 
@@ -173,14 +175,14 @@ public class Nav extends Bot {
     }
 
     private static boolean tryMoveBfs() throws GameActionException {
-        Direction bfsDir = Bfs.readResult(here, dest);
+        Direction bfsDir = BfsDistributed.readResult(here, dest, minBfsInitRound);
 
         if (bfsDir == null) return false;
 
         if (rc.canMove(bfsDir)) {
             rc.move(bfsDir);
             return true;
-        } 
+        }
 
         Direction[] dirs = new Direction[] { bfsDir.rotateLeft(), bfsDir.rotateRight() };
         for (Direction dir : dirs) {
@@ -192,7 +194,8 @@ public class Nav extends Bot {
 
         // recompute path if we run into a previously unknown obstacle
         if (rc.senseTerrainTile(here.add(bfsDir)) == TerrainTile.VOID) {
-            Bfs.reinitQueue(dest);
+            BfsDistributed.reinitQueue(dest);
+            minBfsInitRound = Clock.getRoundNum();
         }
 
         return false;
@@ -206,8 +209,10 @@ public class Nav extends Bot {
 
         if (here.equals(dest)) return;
 
-        // if (!tryMoveBfs()) {
-        bugTo(dest);
-        // }
+        if (rc.getType() == RobotType.LAUNCHER) {
+            tryMoveBfs();
+        } else {
+            bugTo(dest);
+        }
     }
 }
