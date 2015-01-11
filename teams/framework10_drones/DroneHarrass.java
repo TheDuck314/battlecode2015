@@ -1,4 +1,6 @@
-package framework9_drones;
+package framework10_drones;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import battlecode.common.*;
 
@@ -7,30 +9,21 @@ public class DroneHarrass extends Bot {
     static MapLocation[] enemyTowers = null;
 
     private static boolean isSafe(MapLocation loc) {
-        if (loc.distanceSquaredTo(theirHQ) <= 52) {
-            if (enemyTowers.length >= 5) {
-                // enemy HQ has range of 35 and splash, so effective range 52
-                return false;
-            } else if (enemyTowers.length >= 2) {
-                // enemy HQ has range of 35 and no splash
-                if (loc.distanceSquaredTo(theirHQ) <= 35) return false;
-            } else {
-                // enemyHQ has range of 24;
-                if (loc.distanceSquaredTo(theirHQ) <= 24) return false;
-            }
-        }
+        if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
 
-        for (MapLocation tower : enemyTowers) {
-            if (loc.distanceSquaredTo(tower) <= RobotType.TOWER.attackRadiusSquared) return false;
-        }
-
-        RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 15, them);
+        RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 36/* 15 */, them);
         for (RobotInfo enemy : potentialAttackers) {
             if (enemy.type == RobotType.LAUNCHER) {
-                if (loc.distanceSquaredTo(enemy.location) <= 8) {
-                    if (enemy.missileCount > 0 || enemy.weaponDelay < 2) {
-                        return false;
-                    }
+                int safeDist;
+                if (enemy.missileCount > 0) safeDist = 4;
+                else safeDist = 5 - Math.max(1, (int) enemy.weaponDelay);
+                if (Math.abs(loc.x - enemy.location.x) < safeDist && Math.abs(loc.y - enemy.location.y) < safeDist) {
+                    return false;
+                }
+            } else if (enemy.type == RobotType.MISSILE) {
+                int distSq = loc.distanceSquaredTo(enemy.location);
+                if (distSq <= 8) {
+                    return false;
                 }
             } else if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
                 return false;
@@ -41,32 +34,23 @@ public class DroneHarrass extends Bot {
     }
 
     private static boolean canStay(MapLocation loc) {
-        if (loc.distanceSquaredTo(theirHQ) <= 52) {
-            if (enemyTowers.length >= 5) {
-                // enemy HQ has range of 35 and splash, so effective range 52
-                return false;
-            } else if (enemyTowers.length >= 2) {
-                // enemy HQ has range of 35 and no splash
-                if (loc.distanceSquaredTo(theirHQ) <= 35) return false;
-            } else {
-                // enemyHQ has range of 24;
-                if (loc.distanceSquaredTo(theirHQ) <= 24) return false;
-            }
-        }
+        if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
 
-        for (MapLocation tower : enemyTowers) {
-            if (loc.distanceSquaredTo(tower) <= RobotType.TOWER.attackRadiusSquared) return false;
-        }
-
-        RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 15, them);
+        RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 36/* 15 */, them);
         RobotInfo attacker = null;
         int numAttackers = 0;
         for (RobotInfo enemy : potentialAttackers) {
             if (enemy.type == RobotType.LAUNCHER) {
-                if (loc.distanceSquaredTo(enemy.location) <= 8) {
-                    if (enemy.missileCount > 0 || enemy.weaponDelay < 2) {
-                        return false;
-                    }
+                int safeDist;
+                if (enemy.missileCount > 0) safeDist = 4;
+                else safeDist = 5 - Math.max(1, (int) enemy.weaponDelay);
+                if (Math.abs(loc.x - enemy.location.x) < safeDist && Math.abs(loc.y - enemy.location.y) < safeDist) {
+                    return false;
+                }
+            } else if (enemy.type == RobotType.MISSILE) {
+                int distSq = loc.distanceSquaredTo(enemy.location);
+                if (distSq <= 8) {
+                    return false;
                 }
             } else if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
                 numAttackers++;
@@ -92,15 +76,69 @@ public class DroneHarrass extends Bot {
     }
 
     private static void retreat() throws GameActionException {
-        Direction[] retreatDirs = { Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.NORTH_EAST, Direction.SOUTH_EAST,
-                Direction.SOUTH_WEST, Direction.NORTH_WEST };
+        RobotInfo[] tooCloseEnemies = rc.senseNearbyRobots(15, them);
+        if (tooCloseEnemies.length == 0) return;
 
-        for (Direction dir : retreatDirs) {
-            if (canMove(dir)) {
-                rc.move(dir);
-                return;
+        RobotInfo[] nearbyEnemies = rc.senseNearbyRobots(35, them);
+
+        Direction bestRetreatDir = null;
+        RobotInfo currentClosestEnemy = Util.closest(nearbyEnemies, here);
+
+        boolean mustMoveOrthogonally = false;
+        if (rc.getCoreDelay() >= 0.6 && currentClosestEnemy.type == RobotType.MISSILE) mustMoveOrthogonally = true;
+
+        int bestDistSq = here.distanceSquaredTo(currentClosestEnemy.location);
+        for (Direction dir : Direction.values()) {
+            if (!rc.canMove(dir)) continue;
+            if (mustMoveOrthogonally && dir.isDiagonal()) continue;
+
+            MapLocation retreatLoc = here.add(dir);
+            if (inEnemyTowerOrHQRange(retreatLoc, enemyTowers)) continue;
+
+            RobotInfo closestEnemy = Util.closest(nearbyEnemies, retreatLoc);
+            int distSq = retreatLoc.distanceSquaredTo(closestEnemy.location);
+            if (distSq > bestDistSq) {
+                bestDistSq = distSq;
+                bestRetreatDir = dir;
             }
         }
+
+        if (bestRetreatDir != null) rc.move(bestRetreatDir);
+    }
+
+    private static boolean tryToAttack() throws GameActionException {
+        RobotInfo[] targets = rc.senseNearbyRobots(RobotType.DRONE.attackRadiusSquared, them);
+        for (RobotInfo target : targets) {
+            if (target.type == RobotType.MISSILE && target.health < 1.5) {
+                if (here.isAdjacentTo(target.location) || rc.senseNearbyRobots(target.location, 2, us).length > 0) {
+                    continue;
+                }
+            }
+            if (rc.isWeaponReady()) {
+                rc.attackLocation(target.location);
+                rc.setIndicatorLine(here, target.location, 255, 255, 0);
+            }
+            Debug.indicate("harrass", 2, "have target at " + target.location);
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean tryMoveTowardUndefendedHelplessEnemy() throws GameActionException {
+        RobotInfo[] nearbyEnemies = rc.senseNearbyRobots(35, them);
+
+        for (RobotInfo enemy : nearbyEnemies) {
+            if (enemy.type.attackRadiusSquared < RobotType.DRONE.attackRadiusSquared && enemy.type != RobotType.MISSILE) {
+                Direction dir = here.directionTo(enemy.location);
+                if (rc.canMove(dir) && isSafe(here.add(dir))) {
+                    Debug.indicate("harrass", 1, "moving toward helpless enemy at " + enemy.location.toString());
+                    rc.move(dir);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     // current failure modes:
@@ -115,24 +153,19 @@ public class DroneHarrass extends Bot {
 
         if (rc.isCoreReady()) {
             if (!canStay(here)) {
+                Debug.indicate("harrass", 0, "retreating!");
                 retreat();
+            } else {
+                Debug.indicate("harrass", 0, "safe!");
             }
         }
 
-        RobotInfo[] targets = rc.senseNearbyRobots(10, them);
-        for (RobotInfo target : targets) {
-            if (target.type == RobotType.MISSILE) {
-                if (rc.senseNearbyRobots(target.location, 2, us).length > 0) {
-                    continue;
-                }
-            }
-            if (rc.isWeaponReady()) {
-                rc.attackLocation(targets[0].location);
-            }
-            return;
-        }
+        // Even if our weapon is on cooldown, we should stay put if we have a target
+        boolean haveTarget = tryToAttack();
 
-        if (rc.isCoreReady()) {
+        if (!haveTarget && rc.isCoreReady()) {
+            if (tryMoveTowardUndefendedHelplessEnemy()) return;
+
             if (dest == null) {
                 dest = theirHQ;
                 bugState = BugState.DIRECT;
@@ -163,11 +196,11 @@ public class DroneHarrass extends Bot {
     public static int minBfsInitRound = 0;
 
     private static boolean moveSafely(Direction dir) throws GameActionException {
-        if (dir.isDiagonal()) {
-            if (rc.getCoreDelay() + 1.4 >= 2) {
-                return false;
-            }
+        // if (dir.isDiagonal()) {
+        if (rc.getCoreDelay() + 1.4 >= 2) {
+            return false;
         }
+        // }
         rc.move(dir);
         return true;
     }
