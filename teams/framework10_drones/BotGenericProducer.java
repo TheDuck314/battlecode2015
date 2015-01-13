@@ -59,7 +59,7 @@ public class BotGenericProducer extends Bot {
             trySpawn();
         } else {
             // green dot for currently in production cooldown
-            rc.setIndicatorDot(rc.getLocation(), 0, 255, 0);
+//            rc.setIndicatorDot(rc.getLocation(), 0, 255, 0);
             Debug.indicate("status", 0, "in production cooldown");
         }
     }
@@ -75,7 +75,7 @@ public class BotGenericProducer extends Bot {
 
             if (rc.getTeamOre() < spawnType.oreCost) {
                 // red dot for production halted due to insufficient ore
-                rc.setIndicatorDot(here, 255, 0, 0);
+//                rc.setIndicatorDot(here, 255, 0, 0);
                 Debug.indicate("status", 0, "not enough ore to make " + spawnType.toString());
                 continue;
             }
@@ -89,7 +89,7 @@ public class BotGenericProducer extends Bot {
         }
         if(noOrders) {
             // blue dot for production halted by HQ order
-            rc.setIndicatorDot(rc.getLocation(), 0, 0, 255);
+//            rc.setIndicatorDot(rc.getLocation(), 0, 0, 255);
             Debug.indicate("status", 0, "no orders");
         }
     }

@@ -19,6 +19,14 @@ public class Util extends Bot {
         return ret;
     }
     
+    public static int numAlliedBuildingsOrthogonallyAdjacent(MapLocation loc) {
+        int ret = 0;
+        for (RobotInfo ally : rc.senseNearbyRobots(loc, 1, us)) {
+            if (ally.type.isBuilding) ret++;
+        }
+        return ret;
+    }
+    
     public static RobotInfo closest(RobotInfo[] robots, MapLocation toHere) {
         RobotInfo ret = null;
         int bestDistSq = 999999;

@@ -153,7 +153,7 @@ public class BfsDistributed extends Bot {
                             if (terrain != TerrainTile.VOID && terrain != TerrainTile.OFF_MAP) {
                                 publishPath(newLoc, dirs[i]);
                                 pushOnQueue(newLoc);
-                                rc.setIndicatorLine(newLoc, loc, 0, 255, 0);
+//                                rc.setIndicatorLine(newLoc, loc, 0, 255, 0);
                             }
                         }
                     }

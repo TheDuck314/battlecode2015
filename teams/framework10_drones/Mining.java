@@ -64,7 +64,7 @@ public class Mining extends Bot {
                 if (bestDest != null) {
                     mineDest = bestDest;
                     rc.yield(); // this process can take a long time
-                    Debug.indicate("mine", 0, "chose new mineDest: " + mineDest.toString());
+//                    Debug.indicate("mine", 0, "chose new mineDest: " + mineDest.toString());
                     return;
                 }
             }

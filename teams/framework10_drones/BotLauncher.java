@@ -53,9 +53,7 @@ public class BotLauncher extends Bot {
         MeasureMapSize.checkForMapEdges();
 
         if (rc.getMissileCount() > 0) {
-            Debug.indicate("turns", 0, "before tryLaunchMissile");
             boolean launchedMissile = tryLaunchMissile();
-            Debug.indicate("turns", 1, "after tryLaunchMissile");
             if(launchedMissile) return;
         }
 
@@ -109,12 +107,12 @@ public class BotLauncher extends Bot {
         }
 
         for (MapLocation enemyTower : rc.senseEnemyTowerLocations()) {
-            if (here.distanceSquaredTo(enemyTower) <= 36) {
+            if (here.distanceSquaredTo(enemyTower) <= 49) {
                 if (tryLaunchAt(enemyTower)) return true;
             }
         }
 
-        if (here.distanceSquaredTo(theirHQ) <= 36) {
+        if (here.distanceSquaredTo(theirHQ) <= 49) {
             if (tryLaunchAt(theirHQ)) return true;
         }
 

@@ -88,9 +88,9 @@ public class BotHQ extends Bot {
                     1.0 / GameConstants.SUPPLY_GEN_EXPONENT);
         }
 
-//        Debug.indicate("supply", 0, "total supply upkeep = " + totalSupplyUpkeep);
-//        Debug.indicate("supply", 1, "total supply generated = " + totalSupplyGenerated);
-//        Debug.indicate("supply", 2, "supply depots needed = " + supplyDepotsNeeded);
+        // Debug.indicate("supply", 0, "total supply upkeep = " + totalSupplyUpkeep);
+        // Debug.indicate("supply", 1, "total supply generated = " + totalSupplyGenerated);
+        // Debug.indicate("supply", 2, "supply depots needed = " + supplyDepotsNeeded);
     }
 
     private static void directStrategyMassLaunchers() throws GameActionException {
@@ -233,8 +233,10 @@ public class BotHQ extends Bot {
             makeLaunchers = true;
             makeDrones = true;
         } else {
-            if (numDrones < 10 || numAerospaceLabs == 0) {
-                makeDrones = true;
+            if (numAerospaceLabs == 0) {
+                if (numDrones < 10) {
+                    makeDrones = true;
+                }
             } else {
                 if (3 * numLaunchers < numDrones) {
                     makeLaunchers = true;
@@ -354,8 +356,8 @@ public class BotHQ extends Bot {
                 attackMode = false;
             }
         }
-        
-//        Debug.indicate("attack", 0, attackMode ? "attack!" : "don't attack");
+
+        // Debug.indicate("attack", 0, attackMode ? "attack!" : "don't attack");
 
         MapLocation rallyLoc = null;
         if (!attackMode) {

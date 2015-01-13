@@ -118,7 +118,7 @@ public class DroneHarrass extends Bot {
                 rc.attackLocation(target.location);
                 rc.setIndicatorLine(here, target.location, 255, 255, 0);
             }
-            Debug.indicate("harrass", 2, "have target at " + target.location);
+//            Debug.indicate("harrass", 2, "have target at " + target.location);
             return true;
         }
         return false;
@@ -131,7 +131,7 @@ public class DroneHarrass extends Bot {
             if (enemy.type.attackRadiusSquared < RobotType.DRONE.attackRadiusSquared && enemy.type != RobotType.MISSILE) {
                 Direction dir = here.directionTo(enemy.location);
                 if (rc.canMove(dir) && isSafe(here.add(dir))) {
-                    Debug.indicate("harrass", 1, "moving toward helpless enemy at " + enemy.location.toString());
+//                    Debug.indicate("harrass", 1, "moving toward helpless enemy at " + enemy.location.toString());
                     rc.move(dir);
                     return true;
                 }
@@ -153,10 +153,10 @@ public class DroneHarrass extends Bot {
 
         if (rc.isCoreReady()) {
             if (!canStay(here)) {
-                Debug.indicate("harrass", 0, "retreating!");
+//                Debug.indicate("harrass", 0, "retreating!");
                 retreat();
             } else {
-                Debug.indicate("harrass", 0, "safe!");
+//                Debug.indicate("harrass", 0, "safe!");
             }
         }
 
