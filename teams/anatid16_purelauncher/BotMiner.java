@@ -1,4 +1,4 @@
-package anatid16_dronesandlaunchers;
+package anatid16_purelauncher;
 
 import battlecode.common.*;
 
@@ -112,8 +112,8 @@ public class BotMiner extends Bot {
     private static boolean weAreBlockingTheWay() {
         int numAdjacentNonBuildingAllies = 0;
         RobotInfo[] adjacentAllies = rc.senseNearbyRobots(2, us);
-        for (RobotInfo ally : adjacentAllies) {
-            if (!ally.type.isBuilding) numAdjacentNonBuildingAllies++;
+        for(RobotInfo ally : adjacentAllies) {
+            if(!ally.type.isBuilding) numAdjacentNonBuildingAllies++;
         }
         return numAdjacentNonBuildingAllies >= 3;
     }
@@ -150,13 +150,13 @@ public class BotMiner extends Bot {
     private static MapLocation chooseNewMineLoc() throws GameActionException {
         MapLocation searchCenter = here;
 
-        Direction startDiag = here.directionTo(ourHQ);
+        Direction startDiag = here.directionTo(ourHQ); 
         if (!startDiag.isDiagonal()) startDiag = startDiag.rotateLeft();
 
         for (int radius = 1;; radius++) {
             MapLocation bestLoc = null;
             int bestDistSq = 999999;
-
+            
             MapLocation loc = searchCenter.add(startDiag, radius);
             int diag = startDiag.ordinal();
             for (int leg = 0; leg < 4; leg++) {
@@ -166,7 +166,7 @@ public class BotMiner extends Bot {
                 for (int i = 0; i < 2 * radius; i++) {
                     if (isValidMineLoc(loc)) {
                         int distSq = ourHQ.distanceSquaredTo(loc);
-                        if (distSq < bestDistSq) {
+                        if(distSq < bestDistSq) {
                             bestDistSq = distSq;
                             bestLoc = loc;
                         }
@@ -177,8 +177,8 @@ public class BotMiner extends Bot {
 
                 diag = (diag + 2) % 8;
             }
-
-            if (bestLoc != null) {
+            
+            if(bestLoc != null) {
                 return bestLoc;
             }
         }
@@ -186,7 +186,12 @@ public class BotMiner extends Bot {
 
     private static boolean isValidMineLoc(MapLocation loc) throws GameActionException {
         if (rc.senseOre(loc) <= ORE_EXHAUSTED) {
-            return false;
+            if (rc.senseTerrainTile(loc) == TerrainTile.UNKNOWN) {
+                // an unknown tile is fine because it might have ore, unless it is definitely off the map
+                return loc.x >= mapMinX && loc.x <= mapMaxX && loc.y >= mapMinY && loc.y <= mapMaxY;
+            } else {
+                return false;
+            }
         }
 
         if (locIsOccupied(loc)) return false;
@@ -264,7 +269,7 @@ public class BotMiner extends Bot {
         if (loc.y > mapMaxX) return true;
         return false;
     }
-
+    
     private static boolean locIsOccupied(MapLocation loc) throws GameActionException {
         return rc.senseNearbyRobots(loc, 0, null).length > 0;
     }

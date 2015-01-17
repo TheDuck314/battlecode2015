@@ -1,10 +1,49 @@
-package anatid16_puredrone;
+package anatid16_purelauncher;
 
 import battlecode.common.*;
-/*
-public class Nav extends Bot {
+
+interface NavSafetyPolicy {
+    public boolean isSafeToMoveTo(MapLocation loc);
+}
+
+class SafetyPolicyAvoidTowersAndHQ extends Bot implements NavSafetyPolicy {
+    MapLocation[] enemyTowers;
+
+    public SafetyPolicyAvoidTowersAndHQ(MapLocation[] enemyTowers) {
+        this.enemyTowers = enemyTowers;
+    }
+
+    public boolean isSafeToMoveTo(MapLocation loc) {
+        return !inEnemyTowerOrHQRange(loc, enemyTowers);
+    }
+}
+
+class SafetyPolicyAvoidAllUnits extends Bot implements NavSafetyPolicy {
+    MapLocation[] enemyTowers;
+    RobotInfo[] nearbyEnemies;
+
+    public SafetyPolicyAvoidAllUnits(MapLocation[] enemyTowers, RobotInfo[] nearbyEnemies) {
+        this.enemyTowers = enemyTowers;
+        this.nearbyEnemies = nearbyEnemies;
+    }
+
+    public boolean isSafeToMoveTo(MapLocation loc) {
+        if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
+
+        for (RobotInfo enemy : nearbyEnemies) {
+            if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+public class NewNav extends Bot {
 
     private static MapLocation dest;
+    private static NavSafetyPolicy safety;
 
     private enum BugState {
         DIRECT, BUG
@@ -24,10 +63,14 @@ public class Nav extends Bot {
 
     public static int minBfsInitRound = 0;
 
+    private static boolean canMove(Direction dir) {
+        return rc.canMove(dir) && safety.isSafeToMoveTo(here.add(dir));
+    }
+
     private static boolean tryMoveDirect() throws GameActionException {
         Direction toDest = here.directionTo(dest);
 
-        if (rc.canMove(toDest)) {
+        if (canMove(toDest)) {
             rc.move(toDest);
             return true;
         }
@@ -43,7 +86,7 @@ public class Nav extends Bot {
             dirs[1] = dirLeft;
         }
         for (Direction dir : dirs) {
-            if (rc.canMove(dir)) {
+            if (canMove(dir)) {
                 rc.move(dir);
                 return true;
             }
@@ -61,12 +104,12 @@ public class Nav extends Bot {
         // try to intelligently choose on which side we will keep the wall
         Direction leftTryDir = bugLastMoveDir.rotateLeft();
         for (int i = 0; i < 3; i++) {
-            if (!rc.canMove(leftTryDir)) leftTryDir = leftTryDir.rotateLeft();
+            if (!canMove(leftTryDir)) leftTryDir = leftTryDir.rotateLeft();
             else break;
         }
         Direction rightTryDir = bugLastMoveDir.rotateRight();
         for (int i = 0; i < 3; i++) {
-            if (!rc.canMove(rightTryDir)) rightTryDir = rightTryDir.rotateRight();
+            if (!canMove(rightTryDir)) rightTryDir = rightTryDir.rotateRight();
             else break;
         }
         if (dest.distanceSquaredTo(here.add(leftTryDir)) < dest.distanceSquaredTo(here.add(rightTryDir))) {
@@ -80,7 +123,7 @@ public class Nav extends Bot {
         bugMovesSinceSeenObstacle++;
         Direction dir = bugLookStartDir;
         for (int i = 8; i-- > 0;) {
-            if (rc.canMove(dir)) return dir;
+            if (canMove(dir)) return dir;
             dir = (bugWallSide == WallSide.LEFT ? dir.rotateRight() : dir.rotateLeft());
             bugMovesSinceSeenObstacle = 0;
         }
@@ -116,9 +159,9 @@ public class Nav extends Bot {
 
         if (bugLastMoveDir.isDiagonal()) {
             if (bugWallSide == WallSide.LEFT) {
-                return !rc.canMove(bugLastMoveDir.rotateLeft());
+                return !canMove(bugLastMoveDir.rotateLeft());
             } else {
-                return !rc.canMove(bugLastMoveDir.rotateRight());
+                return !canMove(bugLastMoveDir.rotateRight());
             }
         } else {
             return true;
@@ -146,12 +189,13 @@ public class Nav extends Bot {
     }
 
     private static void bugMove() throws GameActionException {
-        // Debug.clear("nav");
+        Debug.clear("nav");
+        Debug.indicate("nav", 0, "bugMovesSinceSeenObstacle = " + bugMovesSinceSeenObstacle + "; bugRotatoinCount = " + bugRotationCount);
 
         // Check if we can stop bugging at the *beginning* of the turn
         if (bugState == BugState.BUG) {
             if (canEndBug()) {
-                // Debug.indicateAppend("nav", 1, "ending bug; ");
+                Debug.indicateAppend("nav", 1, "ending bug; ");
                 bugState = BugState.DIRECT;
             }
         }
@@ -159,17 +203,17 @@ public class Nav extends Bot {
         // If DIRECT mode, try to go directly to target
         if (bugState == BugState.DIRECT) {
             if (!tryMoveDirect()) {
-                // Debug.indicateAppend("nav", 1, "starting to bug; ");
+                Debug.indicateAppend("nav", 1, "starting to bug; ");
                 bugState = BugState.BUG;
                 startBug();
             } else {
-                // Debug.indicateAppend("nav", 1, "successful direct move; ");
+                Debug.indicateAppend("nav", 1, "successful direct move; ");
             }
         }
 
         // If that failed, or if bugging, bug
         if (bugState == BugState.BUG) {
-            // Debug.indicateAppend("nav", 1, "bugging; ");
+            Debug.indicateAppend("nav", 1, "bugging; ");
             bugTurn();
         }
     }
@@ -188,7 +232,7 @@ public class Nav extends Bot {
             return false;
         }
 
-        if (rc.canMove(bfsDir)) {
+        if (canMove(bfsDir)) {
             // Debug.indicate("bfsdist", 0, "following bfs");
             rc.move(bfsDir);
             return true;
@@ -196,7 +240,7 @@ public class Nav extends Bot {
 
         Direction[] dirs = new Direction[] { bfsDir.rotateLeft(), bfsDir.rotateRight() };
         for (Direction dir : dirs) {
-            if (rc.canMove(dir)) {
+            if (canMove(dir)) {
                 // Debug.indicate("bfsdist", 0, "approximately following bfs");
                 rc.move(dir);
                 return true;
@@ -215,13 +259,15 @@ public class Nav extends Bot {
         return false;
     }
 
-    public static void goTo(MapLocation theDest) throws GameActionException {
+    public static void goTo(MapLocation theDest, NavSafetyPolicy theSafety) throws GameActionException {
         if (!theDest.equals(dest)) {
             dest = theDest;
             bugState = BugState.DIRECT;
         }
 
         if (here.equals(dest)) return;
+
+        safety = theSafety;
 
         if (rc.getType() != RobotType.DRONE) { // BFS avoids voids, but drones need not
             if (tryMoveBfs()) {
@@ -232,4 +278,3 @@ public class Nav extends Bot {
         bugMove();
     }
 }
-*/

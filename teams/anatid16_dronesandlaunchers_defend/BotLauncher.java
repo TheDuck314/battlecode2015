@@ -1,4 +1,4 @@
-package anatid16_dronesandlaunchers;
+package anatid16_dronesandlaunchers_defend;
 
 import battlecode.common.*;
 

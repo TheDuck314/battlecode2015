@@ -45,36 +45,18 @@ public class BotHQ extends Bot {
     static int numBashers;
     static int numSupplyDepots;
     static int numDrones;
+    static int numCommanders;
+    static int numComputers;
+    static int numHandwashStations;
+    static int numTechInstitutes;
+    static int numTrainingFields;
 
     static int totalSupplyUpkeep;
     public static double totalSupplyGenerated;
     static double supplyDepotsNeeded;
 
     private static void updateStrategicInfo() {
-        numTowers = rc.senseTowerLocations().length;
-
-        RobotInfo[] allAllies = rc.senseNearbyRobots(999999, us);
-
-        totalSupplyUpkeep = 0;
-        typeCounts = new int[RobotType.values().length];
-        for (RobotInfo ally : allAllies) {
-            typeCounts[ally.type.ordinal()]++;
-            totalSupplyUpkeep += ally.type.supplyUpkeep;
-        }
-
-        numMinerFactories = typeCounts[RobotType.MINERFACTORY.ordinal()];
-        numMiners = typeCounts[RobotType.MINER.ordinal()];
-        numSoldiers = typeCounts[RobotType.SOLDIER.ordinal()];
-        numHelipads = typeCounts[RobotType.HELIPAD.ordinal()];
-        numAerospaceLabs = typeCounts[RobotType.AEROSPACELAB.ordinal()];
-        numLaunchers = typeCounts[RobotType.LAUNCHER.ordinal()];
-        numBeavers = typeCounts[RobotType.BEAVER.ordinal()];
-        numBarracks = typeCounts[RobotType.BARRACKS.ordinal()];
-        numTankFactories = typeCounts[RobotType.TANKFACTORY.ordinal()];
-        numTanks = typeCounts[RobotType.TANK.ordinal()];
-        numBashers = typeCounts[RobotType.BASHER.ordinal()];
-        numSupplyDepots = typeCounts[RobotType.SUPPLYDEPOT.ordinal()];
-        numDrones = typeCounts[RobotType.DRONE.ordinal()];
+        countAlliedUnits();
 
         totalSupplyGenerated = GameConstants.SUPPLY_GEN_BASE
                 * (GameConstants.SUPPLY_GEN_MULTIPLIER + Math.pow(numSupplyDepots, GameConstants.SUPPLY_GEN_EXPONENT));
@@ -125,7 +107,6 @@ public class BotHQ extends Bot {
         boolean makeTanks = false;
 
         int numBeaversNeeded = 1;
-        if (numMinerFactories >= 2) numBeaversNeeded = 2;
         int missingSupplyDepots = 1 + (int) (1.2 * supplyDepotsNeeded - numSupplyDepots);
         if (missingSupplyDepots > numBeaversNeeded) numBeaversNeeded = missingSupplyDepots;
 
@@ -187,11 +168,11 @@ public class BotHQ extends Bot {
             }
         }
         MessageBoard.RALLY_LOC.writeMapLocation(rallyLoc);
-//        Debug.indicate("rally", 0, "rally loc = " + rallyLoc.toString());
-        
-        if(Clock.getRoundNum() > 1940) {
+        // Debug.indicate("rally", 0, "rally loc = " + rallyLoc.toString());
+
+        if (Clock.getRoundNum() > 1940) {
             int numAlliedTowers = rc.senseTowerLocations().length;
-            if(numAlliedTowers <= enemyTowers.length) {
+            if (numAlliedTowers <= enemyTowers.length) {
                 MessageBoard.FINAL_ATTACK_SIGNAL.writeBoolean(true);
             }
         }
@@ -297,6 +278,102 @@ public class BotHQ extends Bot {
 
         if (bestDir != null) {
             rc.spawn(bestDir, RobotType.BEAVER);
+        }
+    }
+
+    private static void countAlliedUnits() {
+        RobotInfo[] allAllies = rc.senseNearbyRobots(999999, us);
+
+        totalSupplyUpkeep = 0;
+
+        numAerospaceLabs = numBarracks = numBashers = numBeavers = numCommanders = numComputers = numDrones = numHandwashStations = numHelipads = numLaunchers = numMiners = numMinerFactories = numSoldiers = numSupplyDepots = numTanks = numTankFactories = numTechInstitutes = numTowers = numTrainingFields = 0;
+
+        for (RobotInfo ally : allAllies) {
+            switch (ally.type) {
+                case AEROSPACELAB:
+                    numAerospaceLabs++;
+                    break;
+
+                case BARRACKS:
+                    numBarracks++;
+                    break;
+
+                case BASHER:
+                    numBashers++;
+                    break;
+
+                case BEAVER:
+                    numBeavers++;
+                    break;
+
+                case COMMANDER:
+                    numCommanders++;
+                    break;
+
+                case COMPUTER:
+                    numComputers++;
+                    break;
+
+                case DRONE:
+                    numDrones++;
+                    break;
+
+                case HANDWASHSTATION:
+                    numHandwashStations++;
+                    break;
+
+                case HELIPAD:
+                    numHelipads++;
+                    break;
+
+                case HQ:
+                    break;
+
+                case LAUNCHER:
+                    numLaunchers++;
+                    break;
+
+                case MINER:
+                    numMiners++;
+                    break;
+
+                case MINERFACTORY:
+                    numMinerFactories++;
+                    break;
+
+                case MISSILE:
+                    break;
+
+                case SOLDIER:
+                    numSoldiers++;
+                    break;
+
+                case SUPPLYDEPOT:
+                    numSupplyDepots++;
+                    break;
+
+                case TANK:
+                    numTanks++;
+                    break;
+
+                case TANKFACTORY:
+                    numTankFactories++;
+                    break;
+
+                case TECHNOLOGYINSTITUTE:
+                    numTechInstitutes++;
+                    break;
+
+                case TOWER:
+                    numTowers++;
+                    break;
+
+                case TRAININGFIELD:
+                    numTrainingFields++;
+                    break;
+            }
+
+            totalSupplyUpkeep += ally.type.supplyUpkeep;
         }
     }
 }

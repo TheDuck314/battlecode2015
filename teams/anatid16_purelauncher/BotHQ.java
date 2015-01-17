@@ -1,4 +1,4 @@
-package anatid16_puredrone;
+package anatid16_purelauncher;
 
 import battlecode.common.*;
 
@@ -24,7 +24,7 @@ public class BotHQ extends Bot {
 
         if (rc.isWeaponReady()) attackEnemies();
 
-        directStrategyPureDrones();
+        directStrategyLaunchers();
 
     }
 
@@ -90,7 +90,7 @@ public class BotHQ extends Bot {
         // Debug.indicate("supply", 2, "supply depots needed = " + supplyDepotsNeeded);
     }
 
-    private static void directStrategyPureDrones() throws GameActionException {
+    private static void directStrategyLaunchers() throws GameActionException {
         RobotType desiredBuilding;
 
         // Choose what building to make
@@ -98,10 +98,8 @@ public class BotHQ extends Bot {
             desiredBuilding = RobotType.MINERFACTORY;
         } else if (numHelipads < 1) {
             desiredBuilding = RobotType.HELIPAD;
-        } else if (numMinerFactories < 2) {
-            desiredBuilding = RobotType.MINERFACTORY;
         } else {
-            desiredBuilding = RobotType.HELIPAD;
+            desiredBuilding = RobotType.AEROSPACELAB;
         }
         if (1.2 * supplyDepotsNeeded > numSupplyDepots) {
             if (rc.getTeamOre() < 1000) {
@@ -125,6 +123,7 @@ public class BotHQ extends Bot {
         boolean makeTanks = false;
 
         int numBeaversNeeded = 1;
+        if (numMinerFactories >= 2) numBeaversNeeded = 2;
         int missingSupplyDepots = 1 + (int) (1.2 * supplyDepotsNeeded - numSupplyDepots);
         if (missingSupplyDepots > numBeaversNeeded) numBeaversNeeded = missingSupplyDepots;
 
@@ -136,7 +135,8 @@ public class BotHQ extends Bot {
             makeMiners = true;
         }
 
-        makeDrones = true;
+        makeLaunchers = true;
+        if(numDrones < 1) makeDrones = true;
 
         MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.BASHER, makeBashers);
         MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMMANDER, makeCommanders);

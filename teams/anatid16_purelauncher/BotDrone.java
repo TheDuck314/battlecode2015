@@ -1,4 +1,4 @@
-package anatid16_puredrone;
+package anatid16_purelauncher;
 
 import battlecode.common.*;
 
@@ -22,9 +22,9 @@ public class BotDrone extends Bot {
     static boolean amResupplyDrone = false;
 
     static void init() throws GameActionException {
-        if (Clock.getRoundNum() > 250 && !rc.canSenseRobot(MessageBoard.RESUPPLY_DRONE_ID.readInt())) {
+//        if (Clock.getRoundNum() > 250 && !rc.canSenseRobot(MessageBoard.RESUPPLY_DRONE_ID.readInt())) {
             amResupplyDrone = true;
-        }
+//        }
     }
 
     private static void turn() throws GameActionException {

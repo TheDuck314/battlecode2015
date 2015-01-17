@@ -5,7 +5,6 @@ import battlecode.common.*;
 public class BotMiner extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
-        Debug.init("supply");
         while (true) {
             try {
                 turn();
@@ -23,9 +22,12 @@ public class BotMiner extends Bot {
         Supply.shareSupply();
         Supply.requestResupplyIfNecessary();
 
-        if (rc.isWeaponReady()) Combat.shootAtNearbyEnemies();
+        if (doObligatoryMicro()) {
+            mineLoc = null;
+            return;
+        }
 
-        if (rc.isCoreReady()) doMining();
+        doMining();
 
         if (Clock.getBytecodesLeft() > 3000) {
             // Do pathing with spare bytecodes
@@ -52,12 +54,6 @@ public class BotMiner extends Bot {
         mapMinY = MessageBoard.MAP_MIN_Y.readInt();
         mapMaxY = MessageBoard.MAP_MAX_Y.readInt();
 
-        if (!isSafeToMine(here)) {
-            runAway();
-            mineLoc = null;
-            return;
-        }
-
         if (mineLoc != null) {
             if (here.equals(mineLoc)) {
                 // We are at the spot we want to mine. Decide whether to mine
@@ -66,32 +62,24 @@ public class BotMiner extends Bot {
                 if (rc.senseOre(here) >= ORE_EXHAUSTED) {
                     if (weAreBlockingTheWay()) {
                         if (tryMoveToUnblockTheWay()) {
-                            Debug.indicate("mine", 0, "unblocking the way");
                             return;
-                        } else {
-                            Debug.indicate("mine", 0, "blocking but no better adjacent ore; mining; ore left = " + rc.senseOre(here));
                         }
-                    } else {
-                        Debug.indicate("mine", 0, "not blocking the way, mining; ore left = " + rc.senseOre(here));
                     }
-                    rc.mine();
+                    if (rc.isCoreReady()) rc.mine();
                     return;
                 } else {
                     // ore here has been exhausted. choose a new mineLoc
                     mineLoc = null;
-                    Debug.indicate("mine", 0, "ore here exhausted, going to look for a new mine loc");
                 }
             } else {
                 // we are not at our preferred mineLoc
                 if (rc.senseOre(here) >= ORE_EXHAUSTED) {
                     // we happened upon a fine spot to mine that was different from our mineLoc
                     mineLoc = here;
-                    Debug.indicate("mine", 2, "found opportunistic mineLoc here at " + mineLoc.toString() + "; mining; ore left = " + rc.senseOre(here));
-                    rc.mine();
+                    if (rc.isCoreReady()) rc.mine();
                     return;
                 } else if (!isValidMineLoc(mineLoc)) {
                     // somehow our mineLoc is no longer suitable :( choose a new one
-                    Debug.indicate("mine", 2, mineLoc.toString() + " is no longer valid :(");
                     mineLoc = null;
                 }
             }
@@ -99,21 +87,19 @@ public class BotMiner extends Bot {
 
         if (mineLoc == null) {
             mineLoc = chooseNewMineLoc();
-            Debug.indicate("mine", 2, "chose new mineLoc: " + mineLoc.toString());
             return; // choosing new mine loc can take several turns
         }
 
-        Debug.indicate("mine", 1, "going to " + mineLoc.toString());
         RobotInfo[] nearbyEnemies = rc.senseNearbyRobots(35, them);
         NavSafetyPolicy safetyPolicy = new SafetyPolicyAvoidAllUnits(enemyTowers, nearbyEnemies);
-        NewNav.goTo(mineLoc, safetyPolicy);
+        if (rc.isCoreReady()) NewNav.goTo(mineLoc, safetyPolicy);
     }
 
     private static boolean weAreBlockingTheWay() {
         int numAdjacentNonBuildingAllies = 0;
         RobotInfo[] adjacentAllies = rc.senseNearbyRobots(2, us);
-        for(RobotInfo ally : adjacentAllies) {
-            if(!ally.type.isBuilding) numAdjacentNonBuildingAllies++;
+        for (RobotInfo ally : adjacentAllies) {
+            if (!ally.type.isBuilding) numAdjacentNonBuildingAllies++;
         }
         return numAdjacentNonBuildingAllies >= 3;
     }
@@ -150,13 +136,13 @@ public class BotMiner extends Bot {
     private static MapLocation chooseNewMineLoc() throws GameActionException {
         MapLocation searchCenter = here;
 
-        Direction startDiag = here.directionTo(ourHQ); 
+        Direction startDiag = here.directionTo(ourHQ);
         if (!startDiag.isDiagonal()) startDiag = startDiag.rotateLeft();
 
         for (int radius = 1;; radius++) {
             MapLocation bestLoc = null;
             int bestDistSq = 999999;
-            
+
             MapLocation loc = searchCenter.add(startDiag, radius);
             int diag = startDiag.ordinal();
             for (int leg = 0; leg < 4; leg++) {
@@ -166,7 +152,7 @@ public class BotMiner extends Bot {
                 for (int i = 0; i < 2 * radius; i++) {
                     if (isValidMineLoc(loc)) {
                         int distSq = ourHQ.distanceSquaredTo(loc);
-                        if(distSq < bestDistSq) {
+                        if (distSq < bestDistSq) {
                             bestDistSq = distSq;
                             bestLoc = loc;
                         }
@@ -177,8 +163,8 @@ public class BotMiner extends Bot {
 
                 diag = (diag + 2) % 8;
             }
-            
-            if(bestLoc != null) {
+
+            if (bestLoc != null) {
                 return bestLoc;
             }
         }
@@ -201,14 +187,201 @@ public class BotMiner extends Bot {
         return true;
     }
 
+    // Miner micro should work like this:
+    //
+    // If we are attacked by anything but a beaver, miner, or drone, always run away
+    //
+    // If we are attacked by a beaver, miner or drone:
+    // - If we are a 1v1, stay and shoot if we can win it or if our health is above some threshold
+    // - If multiple enemies are attacking us, stay if we have at least as many allies attacking at least one enemy, otherwise run away
+    //
+    // Find the closest enemy. if we can move to be in attack range of that enemy,
+    // and doing so wouldn't expose us to more enemies than we have allies currently attacking the enemy, move to engage
+
+    private static boolean doObligatoryMicro() throws GameActionException {
+        RobotInfo[] visibleEnemies = rc.senseNearbyRobots(24, them);
+
+        boolean strongEnemyNearby = false;
+        RobotInfo[] weakEnemiesAttackingUs = new RobotInfo[99];
+        int numWeakEnemiesAttackingUs = 0;
+
+        visibleEnemiesLoop: for (RobotInfo visibleEnemy : visibleEnemies) {
+            switch (visibleEnemy.type) {
+                case TANK:
+                case LAUNCHER:
+                case SOLDIER:
+                case BASHER:
+                case COMMANDER:
+                    strongEnemyNearby = true;
+                    break visibleEnemiesLoop;
+
+                case BEAVER:
+                case MINER:
+                case DRONE:
+                    if (visibleEnemy.type.attackRadiusSquared >= here.distanceSquaredTo(visibleEnemy.location)) {
+                        weakEnemiesAttackingUs[numWeakEnemiesAttackingUs++] = visibleEnemy;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (strongEnemyNearby) {
+            runAway();
+            return true;
+        }
+
+        if (numWeakEnemiesAttackingUs > 0) {
+            int maxAlliesAttackingEnemy = 0;
+            for (int i = 0; i < numWeakEnemiesAttackingUs; i++) {
+                int numAlliesAttackingEnemy = 1 + numOtherAlliedUnitsInAttackRange(weakEnemiesAttackingUs[i].location);
+                if (numAlliesAttackingEnemy > maxAlliesAttackingEnemy) maxAlliesAttackingEnemy = numAlliesAttackingEnemy;
+            }
+
+            if (numWeakEnemiesAttackingUs == 1) {
+                if (maxAlliesAttackingEnemy == 1) {
+                    // we are in a 1v1
+                    boolean shouldStayIn1v1;
+                    if (rc.getHealth() > 30) {
+                        shouldStayIn1v1 = true;
+                    } else {
+                        shouldStayIn1v1 = canWin1v1(weakEnemiesAttackingUs[0]);
+                    }
+                    if (shouldStayIn1v1) {
+                        if (rc.isWeaponReady()) rc.attackLocation(weakEnemiesAttackingUs[0].location);
+                        return true;
+                    } else {
+                        runAway();
+                        return true;
+                    }
+                } else {
+                    // we outnumber the lone enemy
+                    if (rc.isWeaponReady()) rc.attackLocation(weakEnemiesAttackingUs[0].location);
+                    return true;
+                }
+            } else {
+                // multiple enemies are attacking us
+                if (maxAlliesAttackingEnemy >= numWeakEnemiesAttackingUs) {
+                    // we have enough allies in the fight to stay
+                    double minHealth = 1e99;
+                    RobotInfo target = null;
+                    for (int i = 0; i < numWeakEnemiesAttackingUs; i++) {
+                        if (weakEnemiesAttackingUs[i].health < minHealth) {
+                            minHealth = weakEnemiesAttackingUs[i].health;
+                            target = weakEnemiesAttackingUs[i];
+                        }
+                    }
+                    rc.attackLocation(target.location);
+                    return true;
+                } else {
+                    // we are outnumbered, disengage
+                    runAway();
+                    return true;
+                }
+            }
+        } else {
+            // no one is attacking us. only obligatory micro is to move to engage enemies
+            // that an ally is already fighting, if possible
+            MapLocation closestWeakEnemy = null;
+            int minDistSq = 999999;
+            for (RobotInfo visibleEnemy : visibleEnemies) {
+                switch (visibleEnemy.type) {
+                    case DRONE:
+                    case BEAVER:
+                    case MINER:
+                        int distSq = here.distanceSquaredTo(visibleEnemy.location);
+                        if (distSq < minDistSq) {
+                            minDistSq = distSq;
+                            closestWeakEnemy = visibleEnemy.location;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            if (closestWeakEnemy == null) {
+                return false;
+            }
+
+            int numAlliesAlreadyEngaged = numOtherAlliedUnitsInAttackRange(closestWeakEnemy);
+            if(numAlliesAlreadyEngaged == 0) {
+                return false;
+            }
+            
+            Direction dir = here.directionTo(closestWeakEnemy);
+            if (rc.canMove(dir)) {
+                MapLocation loc = here.add(dir);
+                if (loc.distanceSquaredTo(closestWeakEnemy) <= RobotType.MINER.attackRadiusSquared) {
+                    int enemyExposure = 0;
+                    RobotInfo[] enemiesEngaged = rc.senseNearbyRobots(loc, 15, them);
+                    for (RobotInfo enemy : enemiesEngaged) {
+                        if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
+                            switch (enemy.type) {
+                                case TANK:
+                                case LAUNCHER:
+                                case SOLDIER:
+                                case BASHER:
+                                case COMMANDER:
+                                case TOWER:
+                                case HQ:
+                                    enemyExposure = 99;
+                                    break;
+
+                                case DRONE:
+                                case MINER:
+                                case BEAVER:
+                                    enemyExposure += 1;
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    
+                    if(numAlliesAlreadyEngaged >= enemyExposure) {
+                        rc.move(dir);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+    private static int numOtherAlliedUnitsInAttackRange(MapLocation loc) {
+        RobotInfo[] nearbyAllies = rc.senseNearbyRobots(15, us);
+        int ret = 0;
+        for (RobotInfo ally : nearbyAllies) {
+            if (ally.type.attackRadiusSquared >= loc.distanceSquaredTo(ally.location)) {
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    private static boolean canWin1v1(RobotInfo enemy) {
+        int attacksToKillEnemy = (int) (enemy.health / RobotType.MINER.attackPower);
+        int turnsToKillEnemy = (int) rc.getWeaponDelay() + RobotType.MINER.attackDelay * (attacksToKillEnemy - 1);
+
+        int attacksForEnemyToKillUs = (int) (rc.getHealth() / enemy.type.attackPower);
+        int turnsForEnemyToKillUs = Math.max(0, (int) enemy.weaponDelay - 1) + enemy.type.attackDelay * (attacksForEnemyToKillUs - 1);
+
+        return turnsToKillEnemy <= turnsForEnemyToKillUs;
+    }
+
     private static boolean isSafeToMine(MapLocation loc) {
         if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
 
         RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 24, them);
-        int numEnemyWorkers = 0;
+        int numAttackers = 0;
+        RobotInfo loneAttacker = null;
         for (RobotInfo enemy : potentialAttackers) {
             switch (enemy.type) {
-                case DRONE:
                 case TANK:
                 case LAUNCHER:
                 case SOLDIER:
@@ -218,7 +391,11 @@ public class BotMiner extends Bot {
 
                 case BEAVER:
                 case MINER:
-                    numEnemyWorkers++;
+                case DRONE:
+                    if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
+                        numAttackers++;
+                        loneAttacker = enemy;
+                    }
                     break;
 
                 default:
@@ -226,7 +403,15 @@ public class BotMiner extends Bot {
             }
         }
 
-        return numEnemyWorkers <= 3;
+        if (numAttackers == 0) return true;
+
+        if (numAttackers >= 2) return false;
+
+        if (rc.getHealth() >= 20) return true;
+
+        if (canWin1v1(loneAttacker)) return true;
+
+        return false;
     }
 
     private static void runAway() throws GameActionException {
@@ -269,7 +454,7 @@ public class BotMiner extends Bot {
         if (loc.y > mapMaxX) return true;
         return false;
     }
-    
+
     private static boolean locIsOccupied(MapLocation loc) throws GameActionException {
         return rc.senseNearbyRobots(loc, 0, null).length > 0;
     }

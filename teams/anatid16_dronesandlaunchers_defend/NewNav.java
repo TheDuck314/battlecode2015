@@ -1,64 +1,49 @@
-package anatid16_puredrone;
+package anatid16_dronesandlaunchers_defend;
 
 import battlecode.common.*;
 
-public class DroneNav extends Bot {
-    /*public static MapLocation[] enemyTowers;
-    public static MapLocation[] enemyTowersToAvoid = null;
-    public static boolean fearEnemyUnits = true;
-    public static boolean fearEnemyHQ = true;
+interface NavSafetyPolicy {
+    public boolean isSafeToMoveTo(MapLocation loc);
+}
 
-    
-    public static boolean isSafe(MapLocation loc) {
-        if (fearEnemyHQ) {
-            if (loc.distanceSquaredTo(theirHQ) <= 52) {
-                if (enemyTowers.length >= 5) {
-                    // enemy HQ has range of 35 and splash, so effective range 52
-                    return false;
-                } else if (enemyTowers.length >= 2) {
-                    // enemy HQ has range of 35 and no splash
-                    if (loc.distanceSquaredTo(theirHQ) <= 35) return false;
-                } else {
-                    // enemyHQ has range of 24;
-                    if (loc.distanceSquaredTo(theirHQ) <= 24) return false;
-                }
-            }
-        }
+class SafetyPolicyAvoidTowersAndHQ extends Bot implements NavSafetyPolicy {
+    MapLocation[] enemyTowers;
 
-        for (MapLocation tower : enemyTowersToAvoid) {
-            if (loc.distanceSquaredTo(tower) <= RobotType.TOWER.attackRadiusSquared) return false;
-        }
+    public SafetyPolicyAvoidTowersAndHQ(MapLocation[] enemyTowers) {
+        this.enemyTowers = enemyTowers;
+    }
 
-        if (fearEnemyUnits) {
-            RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 36, them);
-            for (RobotInfo enemy : potentialAttackers) {
-                if (enemy.type == RobotType.LAUNCHER) {
-                    int safeDist;
-                    if (enemy.missileCount > 0) safeDist = 4;
-                    else safeDist = 5 - Math.max(1, (int) enemy.weaponDelay);
-                    if (Math.abs(loc.x - enemy.location.x) < safeDist && Math.abs(loc.y - enemy.location.y) < safeDist) {
-                        return false;
-                    }
-                } else if (enemy.type == RobotType.MISSILE) {
-                    int distSq = loc.distanceSquaredTo(enemy.location);
-                    if (distSq <= 8) {
-                        return false;
-                    }
-                } else if (enemy.type != RobotType.BEAVER && enemy.type != RobotType.MINER
-                        && enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
-                    return false;
-                }
+    public boolean isSafeToMoveTo(MapLocation loc) {
+        return !inEnemyTowerOrHQRange(loc, enemyTowers);
+    }
+}
+
+class SafetyPolicyAvoidAllUnits extends Bot implements NavSafetyPolicy {
+    MapLocation[] enemyTowers;
+    RobotInfo[] nearbyEnemies;
+
+    public SafetyPolicyAvoidAllUnits(MapLocation[] enemyTowers, RobotInfo[] nearbyEnemies) {
+        this.enemyTowers = enemyTowers;
+        this.nearbyEnemies = nearbyEnemies;
+    }
+
+    public boolean isSafeToMoveTo(MapLocation loc) {
+        if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
+
+        for (RobotInfo enemy : nearbyEnemies) {
+            if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
+                return false;
             }
         }
 
         return true;
     }
+}
 
-    public static boolean canMove(Direction dir) {
-        return rc.canMove(dir) && isSafe(here.add(dir));
-    }
+public class NewNav extends Bot {
 
     private static MapLocation dest;
+    private static NavSafetyPolicy safety;
 
     private enum BugState {
         DIRECT, BUG
@@ -78,21 +63,15 @@ public class DroneNav extends Bot {
 
     public static int minBfsInitRound = 0;
 
-    private static boolean moveSafely(Direction dir) throws GameActionException {
-        // if (dir.isDiagonal()) {
-        if (rc.getCoreDelay() + 1.4 >= 2) {
-            return false;
-        }
-        // }
-        rc.move(dir);
-        return true;
+    private static boolean canMove(Direction dir) {
+        return rc.canMove(dir) && safety.isSafeToMoveTo(here.add(dir));
     }
 
     private static boolean tryMoveDirect() throws GameActionException {
         Direction toDest = here.directionTo(dest);
 
         if (canMove(toDest)) {
-            moveSafely(toDest);
+            rc.move(toDest);
             return true;
         }
 
@@ -108,7 +87,7 @@ public class DroneNav extends Bot {
         }
         for (Direction dir : dirs) {
             if (canMove(dir)) {
-                moveSafely(dir);
+                rc.move(dir);
                 return true;
             }
         }
@@ -133,11 +112,11 @@ public class DroneNav extends Bot {
             if (!canMove(rightTryDir)) rightTryDir = rightTryDir.rotateRight();
             else break;
         }
-        // if (dest.distanceSquaredTo(here.add(leftTryDir)) < dest.distanceSquaredTo(here.add(rightTryDir))) {
-        // bugWallSide = WallSide.RIGHT;
-        // } else {
-        // bugWallSide = WallSide.LEFT;
-        // }
+        if (dest.distanceSquaredTo(here.add(leftTryDir)) < dest.distanceSquaredTo(here.add(rightTryDir))) {
+            bugWallSide = WallSide.RIGHT;
+        } else {
+            bugWallSide = WallSide.LEFT;
+        }
     }
 
     private static Direction findBugMoveDir() throws GameActionException {
@@ -168,19 +147,24 @@ public class DroneNav extends Bot {
     }
 
     private static void bugMove(Direction dir) throws GameActionException {
-        if (moveSafely(dir)) {
-            bugRotationCount += calculateBugRotation(dir);
-            bugLastMoveDir = dir;
-            if (bugWallSide == WallSide.LEFT) bugLookStartDir = dir.rotateLeft().rotateLeft();
-            else bugLookStartDir = dir.rotateRight().rotateRight();
-        }
+        rc.move(dir);
+        bugRotationCount += calculateBugRotation(dir);
+        bugLastMoveDir = dir;
+        if (bugWallSide == WallSide.LEFT) bugLookStartDir = dir.rotateLeft().rotateLeft();
+        else bugLookStartDir = dir.rotateRight().rotateRight();
     }
 
     private static boolean detectBugIntoEdge() {
-        if (bugWallSide == WallSide.LEFT) {
-            return rc.senseTerrainTile(here.add(bugLastMoveDir.rotateLeft())) == TerrainTile.OFF_MAP;
+        if (rc.senseTerrainTile(here.add(bugLastMoveDir)) != TerrainTile.OFF_MAP) return false;
+
+        if (bugLastMoveDir.isDiagonal()) {
+            if (bugWallSide == WallSide.LEFT) {
+                return !canMove(bugLastMoveDir.rotateLeft());
+            } else {
+                return !canMove(bugLastMoveDir.rotateRight());
+            }
         } else {
-            return rc.senseTerrainTile(here.add(bugLastMoveDir.rotateRight())) == TerrainTile.OFF_MAP;
+            return true;
         }
     }
 
@@ -204,20 +188,14 @@ public class DroneNav extends Bot {
         return (bugRotationCount <= 0 || bugRotationCount >= 8) && here.distanceSquaredTo(dest) <= bugStartDistSq;
     }
 
-    public static void goTo(MapLocation theDest) throws GameActionException {
-        if (!theDest.equals(dest)) {
-            dest = theDest;
-            bugState = BugState.DIRECT;
-            bugWallSide = rc.getID() % 2 == 0 ? WallSide.LEFT : WallSide.RIGHT;
-        }
-
-        // Debug.indicate("harrass", 0, "bugging to " + dest.toString());
-        // Debug.clear("nav");
+    private static void bugMove() throws GameActionException {
+        Debug.clear("nav");
+        Debug.indicate("nav", 0, "bugMovesSinceSeenObstacle = " + bugMovesSinceSeenObstacle + "; bugRotatoinCount = " + bugRotationCount);
 
         // Check if we can stop bugging at the *beginning* of the turn
         if (bugState == BugState.BUG) {
             if (canEndBug()) {
-                // Debug.indicateAppend("nav", 1, "ending bug; ");
+                Debug.indicateAppend("nav", 1, "ending bug; ");
                 bugState = BugState.DIRECT;
             }
         }
@@ -225,19 +203,78 @@ public class DroneNav extends Bot {
         // If DIRECT mode, try to go directly to target
         if (bugState == BugState.DIRECT) {
             if (!tryMoveDirect()) {
-                // Debug.indicateAppend("nav", 1, "starting to bug; ");
+                Debug.indicateAppend("nav", 1, "starting to bug; ");
                 bugState = BugState.BUG;
                 startBug();
             } else {
-                // Debug.indicateAppend("nav", 1, "successful direct move; ");
+                Debug.indicateAppend("nav", 1, "successful direct move; ");
             }
         }
 
         // If that failed, or if bugging, bug
         if (bugState == BugState.BUG) {
-            // Debug.indicateAppend("nav", 1, "bugging; ");
+            Debug.indicateAppend("nav", 1, "bugging; ");
             bugTurn();
         }
     }
-    */
+
+    private static boolean tryMoveBfs() throws GameActionException {
+        if (!BfsDistributed.isSearchDest(dest)) {
+            // BFS is not searching for our destination
+            // Debug.indicate("bfsdist", 0, "bfs dest is not ours");
+            return false;
+        }
+
+        Direction bfsDir = BfsDistributed.readResult(here, dest, minBfsInitRound);
+
+        if (bfsDir == null) {
+            // Debug.indicate("bfsdist", 0, "bfs doesn't have result for our dest yet");
+            return false;
+        }
+
+        if (canMove(bfsDir)) {
+            // Debug.indicate("bfsdist", 0, "following bfs");
+            rc.move(bfsDir);
+            return true;
+        }
+
+        Direction[] dirs = new Direction[] { bfsDir.rotateLeft(), bfsDir.rotateRight() };
+        for (Direction dir : dirs) {
+            if (canMove(dir)) {
+                // Debug.indicate("bfsdist", 0, "approximately following bfs");
+                rc.move(dir);
+                return true;
+            }
+        }
+
+        // Debug.indicate("bfsdist", 0, "have bfs result; waiting for traffic jam");
+
+        // recompute path if we run into a previously unknown obstacle
+        if (Util.isImpassable(rc.senseTerrainTile(here.add(bfsDir)))) {
+            // Debug.indicate("bfsdist", 0, "ran into new obstacle; reiniting bfs");
+            BfsDistributed.reinitQueue(dest);
+            minBfsInitRound = Clock.getRoundNum();
+        }
+
+        return false;
+    }
+
+    public static void goTo(MapLocation theDest, NavSafetyPolicy theSafety) throws GameActionException {
+        if (!theDest.equals(dest)) {
+            dest = theDest;
+            bugState = BugState.DIRECT;
+        }
+
+        if (here.equals(dest)) return;
+
+        safety = theSafety;
+
+        if (rc.getType() != RobotType.DRONE) { // BFS avoids voids, but drones need not
+            if (tryMoveBfs()) {
+                return;
+            }
+        }
+
+        bugMove();
+    }
 }

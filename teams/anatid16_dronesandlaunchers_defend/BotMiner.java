@@ -1,11 +1,11 @@
-package anatid16_dronesandlaunchers;
+package anatid16_dronesandlaunchers_defend;
 
 import battlecode.common.*;
 
 public class BotMiner extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
-        Debug.init("supply");
+        Debug.init("mine");
         while (true) {
             try {
                 turn();
@@ -200,10 +200,8 @@ public class BotMiner extends Bot {
         if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
 
         RobotInfo[] potentialAttackers = rc.senseNearbyRobots(loc, 24, them);
-        int numEnemyWorkers = 0;
         for (RobotInfo enemy : potentialAttackers) {
             switch (enemy.type) {
-                case DRONE:
                 case TANK:
                 case LAUNCHER:
                 case SOLDIER:
@@ -211,9 +209,12 @@ public class BotMiner extends Bot {
                 case COMMANDER:
                     return false;
 
+                case DRONE:
                 case BEAVER:
                 case MINER:
-                    numEnemyWorkers++;
+                    if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
+                        return false;
+                    }
                     break;
 
                 default:
@@ -221,7 +222,7 @@ public class BotMiner extends Bot {
             }
         }
 
-        return numEnemyWorkers <= 3;
+        return true;
     }
 
     private static void runAway() throws GameActionException {

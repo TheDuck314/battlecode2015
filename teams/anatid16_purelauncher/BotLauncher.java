@@ -1,4 +1,4 @@
-package anatid16_dronesandlaunchers;
+package anatid16_purelauncher;
 
 import battlecode.common.*;
 
@@ -84,7 +84,7 @@ public class BotLauncher extends Bot {
             if (!rc.canMove(dir)) continue;
 
             MapLocation retreatLoc = here.add(dir);
-            if(inEnemyTowerOrHQRange(retreatLoc, enemyTowers)) continue;
+            if(inEnemyTowerOrHQRange(retreatLoc, enemyTowers));
             
             RobotInfo closestEnemy = Util.closest(nearbyEnemies, retreatLoc);
             int distSq = retreatLoc.distanceSquaredTo(closestEnemy.location);

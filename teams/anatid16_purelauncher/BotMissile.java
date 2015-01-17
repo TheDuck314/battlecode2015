@@ -1,4 +1,4 @@
-package anatid16_dronesandlaunchers;
+package anatid16_purelauncher;
 
 import battlecode.common.*;
 
@@ -25,6 +25,11 @@ public class BotMissile {
         for (int i = adjacentEnemies.length; i-- > 0;) {
             if (adjacentEnemies[i].type != RobotType.MISSILE) rc.explode();
         }
+        // if (adjacentEnemies.length > 0) {
+        // // System.out.println("exploding on contact");
+        // rc.explode();
+        // return;
+        // }
 
         if (rc.canSenseRobot(MissileGuidance.receivedTargetID)) {
             MissileGuidance.receivedTargetLocation = rc.senseRobot(MissileGuidance.receivedTargetID).location;

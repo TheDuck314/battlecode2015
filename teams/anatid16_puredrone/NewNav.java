@@ -8,11 +8,11 @@ interface NavSafetyPolicy {
 
 class SafetyPolicyAvoidTowersAndHQ extends Bot implements NavSafetyPolicy {
     MapLocation[] enemyTowers;
-    
+
     public SafetyPolicyAvoidTowersAndHQ(MapLocation[] enemyTowers) {
         this.enemyTowers = enemyTowers;
     }
-    
+
     public boolean isSafeToMoveTo(MapLocation loc) {
         return !inEnemyTowerOrHQRange(loc, enemyTowers);
     }
@@ -21,21 +21,21 @@ class SafetyPolicyAvoidTowersAndHQ extends Bot implements NavSafetyPolicy {
 class SafetyPolicyAvoidAllUnits extends Bot implements NavSafetyPolicy {
     MapLocation[] enemyTowers;
     RobotInfo[] nearbyEnemies;
-    
+
     public SafetyPolicyAvoidAllUnits(MapLocation[] enemyTowers, RobotInfo[] nearbyEnemies) {
         this.enemyTowers = enemyTowers;
         this.nearbyEnemies = nearbyEnemies;
     }
-    
+
     public boolean isSafeToMoveTo(MapLocation loc) {
-        if(inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
-        
-        for(RobotInfo enemy : nearbyEnemies) {
-            if(enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
+        if (inEnemyTowerOrHQRange(loc, enemyTowers)) return false;
+
+        for (RobotInfo enemy : nearbyEnemies) {
+            if (enemy.type.attackRadiusSquared >= loc.distanceSquaredTo(enemy.location)) {
                 return false;
             }
         }
-        
+
         return true;
     }
 }
@@ -62,7 +62,7 @@ public class NewNav extends Bot {
     private static int bugMovesSinceSeenObstacle = 0;
 
     public static int minBfsInitRound = 0;
-    
+
     private static boolean canMove(Direction dir) {
         return rc.canMove(dir) && safety.isSafeToMoveTo(here.add(dir));
     }
@@ -189,12 +189,13 @@ public class NewNav extends Bot {
     }
 
     private static void bugMove() throws GameActionException {
-        // Debug.clear("nav");
+        Debug.clear("nav");
+        Debug.indicate("nav", 0, "bugMovesSinceSeenObstacle = " + bugMovesSinceSeenObstacle + "; bugRotatoinCount = " + bugRotationCount);
 
         // Check if we can stop bugging at the *beginning* of the turn
         if (bugState == BugState.BUG) {
             if (canEndBug()) {
-                // Debug.indicateAppend("nav", 1, "ending bug; ");
+                Debug.indicateAppend("nav", 1, "ending bug; ");
                 bugState = BugState.DIRECT;
             }
         }
@@ -202,17 +203,17 @@ public class NewNav extends Bot {
         // If DIRECT mode, try to go directly to target
         if (bugState == BugState.DIRECT) {
             if (!tryMoveDirect()) {
-                // Debug.indicateAppend("nav", 1, "starting to bug; ");
+                Debug.indicateAppend("nav", 1, "starting to bug; ");
                 bugState = BugState.BUG;
                 startBug();
             } else {
-                // Debug.indicateAppend("nav", 1, "successful direct move; ");
+                Debug.indicateAppend("nav", 1, "successful direct move; ");
             }
         }
 
         // If that failed, or if bugging, bug
         if (bugState == BugState.BUG) {
-            // Debug.indicateAppend("nav", 1, "bugging; ");
+            Debug.indicateAppend("nav", 1, "bugging; ");
             bugTurn();
         }
     }
@@ -263,7 +264,7 @@ public class NewNav extends Bot {
             dest = theDest;
             bugState = BugState.DIRECT;
         }
-        
+
         if (here.equals(dest)) return;
 
         safety = theSafety;

@@ -1,11 +1,11 @@
-package anatid16_puredrone;
+package anatid16_dronesandlaunchers_defend;
 
 import battlecode.common.*;
 
 public class BotDrone extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
-        Debug.init("nav");
+        Debug.init("1v1");
 
         init();
         
