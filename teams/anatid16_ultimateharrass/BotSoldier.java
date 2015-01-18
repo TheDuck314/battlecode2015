@@ -1,4 +1,4 @@
-package anatid16_soldierharrass;
+package anatid16_ultimateharrass;
 
 
 import battlecode.common.*;
@@ -6,7 +6,7 @@ import battlecode.common.*;
 public class BotSoldier extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
-        
+
         while (true) {
             try {
                 turn();

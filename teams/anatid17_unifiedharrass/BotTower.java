@@ -1,12 +1,10 @@
-package anatid16_soldierharrass;
-
+package anatid17_unifiedharrass;
 
 import battlecode.common.*;
 
-public class BotSoldier extends Bot {
+public class BotTower extends Bot {
     public static void loop(RobotController theRC) throws GameActionException {
         Bot.init(theRC);
-        
         while (true) {
             try {
                 turn();
@@ -18,10 +16,9 @@ public class BotSoldier extends Bot {
     }
 
     private static void turn() throws GameActionException {
-        here = rc.getLocation();
+        if (rc.isWeaponReady()) Combat.shootAtNearbyEnemies();
 
-        MeasureMapSize.checkForMapEdges();
-
-        SoldierHarrass.doHarrass();
+        Supply.shareSupply();
     }
+
 }
