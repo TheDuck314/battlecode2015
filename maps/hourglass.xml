@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map height="80" width="45">
+<map height="81" width="45">
     <game seed="90" rounds="2000"/>
     <symbols>
         <symbol terrain="NORMAL" type="TERRAIN" character="n"/>
@@ -91,6 +91,7 @@ v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n30 n30 n30 n30 
 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n30 n30 n30 n30 n30 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1
 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n30 n30 n30 n30 n30 n30 n30 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1
 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n30 n30 n30 n30 n30 n30 n30 n30 n30 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1
+v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1
 ]]>
     </data>
 </map>

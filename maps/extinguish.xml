@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map height="30" width="30">
+    <game seed="1337" rounds="2000"/>
+    <symbols>
+        <symbol terrain="NORMAL" type="TERRAIN" character="n"/>
+        <symbol terrain="VOID" type="TERRAIN" character="v"/>
+        <symbol team="A" type="HQ" character="a"/>
+        <symbol team="B" type="HQ" character="b"/>
+        <symbol team="A" type="TOWER" character="A"/>
+        <symbol team="B" type="TOWER" character="B"/>
+    </symbols>
+    <data>
+<![CDATA[
+v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 B10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v1 n1 n1 b1 n1 n1 n1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v10 n10 n10 n10 n10 v1 v1 A0 n0 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 n10 v1 n1 n1 n1 n1 n1 n1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n20 n20 n20 n20 n20 n20 n10 B10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 v10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 A10 n10 n10 n10 n10 v1 v10 n10 n10 A10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 B10 n10 n10 v10 v1 n10 n10 n10 n10 B10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v1 n10 n10 n10 n10 n10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+v1 n10 n10 n10 n10 n10 v1 v10 n10 n10 A10 n10 n20 n20 n20 n20 n20 n20 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n0 B0 v1 v1 n10 n10 n10 n10 v10 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v1 v1 v1 v1 n10 n10 n10 n10 v10 v1
+n1 n1 n1 a1 n1 n1 v1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 A10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1
+n1 n1 n1 n1 n1 n1 v1 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1
+]]>
+    </data>
+</map>

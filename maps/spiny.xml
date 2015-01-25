@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map height="47" width="55">
+    <game seed="825" rounds="2000"/>
+    <symbols>
+        <symbol terrain="NORMAL" type="TERRAIN" character="n"/>
+        <symbol terrain="VOID" type="TERRAIN" character="v"/>
+        <symbol team="A" type="HQ" character="a"/>
+        <symbol team="B" type="HQ" character="b"/>
+        <symbol team="A" type="TOWER" character="A"/>
+        <symbol team="B" type="TOWER" character="B"/>
+    </symbols>
+    <data>
+<![CDATA[
+v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10
+n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10
+n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10
+n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 v5 v5 v5 n5 n5 n5 n5 n5 n5 A5 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10
+n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 a5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 n10 n10 n10 n10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n10 n10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 n10 n10 n10 v10 v10 n10 n10 n10 n10 n10 A10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+v10 n10 n10 n5 n5 n5 n5 n5 n5 n10 n10 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 v10 v10 n10 n10 n10 v10 v10 v10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n5 v5 v5 n5 n5 n5 n5 n5 n10 n10 n10
+v10 v10 v10 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 v10 n10 v10 n10 v10 v10 v10 n10 n10 n10 n10 n10 v10 n10 n10 n10 v10 v10 n10 n10 n10 v10 v10 n10 n5 n5 n5 n5 n5 n10 n10 n10
+v10 v10 v10 v5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 v10 v10 v10 n10 n10 n10 n10 n10 n10 v10 v10 v10 n10 v10 v10 n10 n10 n10 n10 n10 n10 v10 n10 n10 v10 v10 n10 n10 n10 n10 v10 n10 n10 n5 n5 n5 n5 n5 n10 n10 n10
+v10 v10 v10 v5 v5 B5 n5 n5 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 n10 n10 n10 n20 v20 v20 v10 n10 v5 v5 n20 n20 n20 n10 n10 n10 v10 n10 n10 v10 v10 n10 v10 v10 n10 v10 n10 n10 v5 v5 n5 n5 n5 n10 n10 n10
+v10 v10 v10 v5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 v10 v5 v10 v10 v10 n10 n20 n20 v20 v10 v10 v5 v5 n20 n20 n20 n10 n10 n10 v10 n10 v10 v10 n10 v10 v10 v10 n10 v10 v10 v10 v5 n5 n5 n5 n5 n10 n10 n10
+v10 v10 n10 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 v5 v10 v10 v10 v10 n20 n20 v20 v10 v10 v5 v5 n20 n20 n20 v20 v20 n10 n10 v10 v10 v10 v10 v10 n10 n10 v10 v10 v10 n10 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 v10 v5 v10 v10 v10 v10 v20 n20 n20 v20 v20 v10 v20 n20 n20 n20 v20 n20 n10 n10 v10 v10 v10 v10 n10 n10 v10 v10 n10 n10 n10 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 v5 v20 v20 v20 v20 v20 v20 v20 n20 n20 n20 v20 v10 n20 n20 n20 n20 v20 v10 v10 v10 v5 v5 v5 v5 n10 v10 v10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 v10 v10 v10 v10 v5 v5 v20 n20 n20 v20 v20 v20 v20 v20 n20 n20 v20 v20 n20 n20 v20 v20 v20 v10 v10 v5 v5 v5 v5 v5 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 v10 v10 v10 v10 n10 n20 n20 n20 n20 n20 v20 n20 n20 n20 n20 n20 n20 n20 n20 v20 v20 v20 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 v20 v20 v20 v20 v20 v20 v20 n20 n20 n20 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 B10 v10 v10 n10 n10 n10 n10 n20 n20 n20 n20 n20 n20 n20 v20 v20 v20 n20 n20 n20 v20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 v10 A10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n20 n20 n20 v20 v20 v20 v20 v20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n10 n10 n10 n10 v10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 v20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n20 v20 n20 n20 n20 n20 n20 n10 v10 v10 v10 v10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 v5 v5 v5 v5 v5 v10 v10 v20 v20 v20 n20 n20 v20 v20 n20 n20 v20 v20 v20 v20 v20 n20 n20 v20 v5 v5 v10 v10 v10 v10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n10 n10 n10 n10 n10 v10 v10 n10 v5 v5 v5 v5 v10 v10 v10 v20 n20 n20 n20 n20 v10 v20 n20 n20 n20 v20 v20 v20 v20 v20 v20 v20 v5 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n10 n10 n10 v10 v10 n10 n10 v10 v10 v10 v10 n10 n10 n20 v20 n20 n20 n20 v20 v10 v20 v20 n20 n20 v20 v10 v10 v10 v10 v5 v10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n10 v10 v10 v10 n10 n10 v10 v10 v10 v10 v10 n10 n10 v20 v20 n20 n20 n20 v5 v5 v10 v10 v20 n20 n20 v10 v10 v10 v10 v5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n10 v10 v10
+n10 n10 n10 n5 n5 n5 n5 v5 v10 v10 v10 n10 v10 v10 v10 n10 v10 v10 n10 v10 n10 n10 n10 n20 n20 n20 v5 v5 v10 v10 v20 n20 n20 n10 v10 v10 v10 v5 v10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 v5 v10 v10 v10
+n10 n10 n10 n5 n5 n5 v5 v5 n10 n10 v10 n10 v10 v10 n10 v10 v10 n10 n10 v10 n10 n10 n10 n20 n20 n20 v5 v5 n10 v10 v20 v20 n20 n10 n10 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n5 n5 A5 v5 v5 v10 v10 v10
+n10 n10 n10 n5 n5 n5 n5 n5 n10 n10 v10 n10 n10 n10 n10 v10 v10 n10 n10 v10 n10 n10 n10 n10 n10 n10 v10 v10 n10 v10 v10 v10 n10 n10 n10 n10 n10 n10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 v5 v10 v10 v10
+n10 n10 n10 n5 n5 n5 n5 n5 n10 v10 v10 n10 n10 n10 v10 v10 n10 n10 n10 v10 n10 n10 n10 n10 n10 v10 v10 v10 n10 v10 n10 v10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 v10 v10 v10
+n10 n10 n10 n5 n5 n5 n5 n5 v5 v5 n5 n10 n10 n10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 v10 v10 v10 n10 n10 n10 v10 v10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n10 n10 v10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 B10 n10 n10 n10 n10 n10 v10 v10 n10 n10 n10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 n10 n10 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 n10 n10 n10 n10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 n10 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 b5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10
+n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10
+n10 n10 n10 n10 n10 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n5 v5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 B5 n5 n5 n5 n5 n5 n5 v5 v5 v5 v5 n5 n5 n5 n5 n5 n5 n5 n5 n5 n10 n10 n10 n10 n10
+v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10
+v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10
+v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10 v10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 v10
+]]>
+    </data>
+</map>

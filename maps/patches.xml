@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map height="65" width="63">
+    <game seed="8" rounds="2000"/>
+    <symbols>
+        <symbol terrain="NORMAL" type="TERRAIN" character="n"/>
+        <symbol terrain="VOID" type="TERRAIN" character="v"/>
+        <symbol team="A" type="HQ" character="a"/>
+        <symbol team="B" type="HQ" character="b"/>
+        <symbol team="A" type="TOWER" character="A"/>
+        <symbol team="B" type="TOWER" character="B"/>
+    </symbols>
+    <data>
+<![CDATA[
+n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1 v1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 v20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 v20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 v20 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 v20 v20 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 n1 n1 v1 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1
+n20 n20 n20 n20 n1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1
+n20 n20 n20 n1 n1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1
+n20 n20 n1 n1 v1 v1 n1 n1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 b10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n10 B10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 B1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n10 n10 n10 n10 n10 n10 n10 v10 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 B1 n1 n1 n1 v1 v1 v1 v1 v1 n10 n10 n10 n10 n10 v10 v10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v10 n10 n10 v10 v10 v10 v10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 n1 n1 n1 n1 n1 v1 v1 n1 n1 n20 n20 n20 n20
+v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n20 n20 n20 n20
+v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n20 n20 n20 n20
+v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 n1 n1 B1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n20 n20 n20 n20 n20
+v1 v1 v1 v1 n1 n1 n1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n20 n20 n20 n20 n20 n20
+v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 n1 n1 n1 n1 n20 n20 n20 n20 n20 v20 n20 n20 n20 n20 n20 n20 n20 n20 n20 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n20 n20 n20 n20 n20 n20
+v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n20 v20 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v20 n20 n20 n20 n20 n20 n20 n20
+v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 v20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n20 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n20 n20 n20 n20 n20 n20 n20 n20
+v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n20 v20 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v20 n20 n20 n20 n20 n20 n20 n20
+v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 n1 n1 n1 n1 n20 n20 n20 n20 n20 v20 n20 n20 n20 n20 n20 n20 n20 n20 n20 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n20 n20 n20 n20 n20 n20
+v1 v1 v1 v1 n1 n1 n1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n20 n20 n20 n20 n20 n20
+v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 n1 n1 A1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n20 n20 n20 n20 n20
+v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n20 n20 n20 n20
+v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n20 n20 n20 n20
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 n1 n1 n1 n1 n1 v1 v1 n1 n1 n20 n20 n20 n20
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20 n20
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v10 n10 n10 v10 v10 v10 v10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n20 n20 n20
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 A1 n1 n1 n1 v1 v1 v1 v1 v1 n10 n10 n10 n10 n10 v10 v10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n10 n10 n10 n10 n10 n10 n10 v10 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v10 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v10 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v10 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 A1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 a10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n10 A10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n20 n20 n1 n1 v1 v1 n1 n1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1
+n20 n20 n20 n1 n1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1
+n20 n20 n20 n20 n1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1
+n20 n20 n20 n20 n20 n20 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 v20 v20 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 n1 n1 v1 v10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 v20 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 v20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n10 n10 n10 n10 n10 n10 n10 n10 n10 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 v20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 n1 v1 v1 v1 v1 v1 v1 v1
+n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 v1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 n1 v1 v1 v1 v1 v1 v1 v1 v1 v1
+]]>
+    </data>
+</map>

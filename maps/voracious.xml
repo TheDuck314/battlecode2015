@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map height="70" width="80">
+<map height="71" width="80">
     <game seed="90" rounds="2000"/>
     <symbols>
         <symbol terrain="NORMAL" type="TERRAIN" character="n"/>
@@ -81,6 +81,7 @@ v20 v20 v20 v20 v20 v30 v30 v30 n30 n30 n30 n30 n30 n30 n30 v30 v30 n30 n30 n30 
 v20 v20 v20 v20 v20 v30 v30 v30 v30 n30 n30 n30 n30 n30 n30 n30 n30 v30 v30 v30 v30 v30 v30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0
 v20 v20 v20 v20 v20 v30 v30 v30 v30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 v30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0
 v20 v20 v20 v20 v20 v30 v30 v30 v30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n30 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0 n0
+v20 v20 v20 v20 v20 v20 v20 v20 v20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20 n20
 ]]>
     </data>
 </map>
