@@ -1,4 +1,4 @@
-package zephyr24_optionalcommander;
+package zephyr25_supply;
 
 import battlecode.common.*;
 
@@ -82,6 +82,8 @@ public class BotHQ extends Bot {
         if (rc.isWeaponReady()) attackEnemies();
 
         directStrategy();
+        
+        rc.setIndicatorString(0, "numDronesMade = " + MessageBoard.NUM_DRONES_MADE.readInt());
     }
 
     private static void updateStrategicInfo() {
@@ -199,187 +201,7 @@ public class BotHQ extends Bot {
 
         setRallyLoc();
     }
-
-    private static void directStrategySoldiersIntoLaunchers() throws GameActionException {
-        RobotType desiredBuilding;
-
-        // Choose what building to make
-        if (numMinerFactories < 1) {
-            desiredBuilding = RobotType.MINERFACTORY;
-        } else if (numBarracks < 1) {
-            desiredBuilding = RobotType.BARRACKS;
-        } else if (numHelipads < 1) {
-            desiredBuilding = RobotType.HELIPAD;
-        } else if (numAerospaceLabs < 1) {
-            desiredBuilding = RobotType.AEROSPACELAB;
-        } else {
-            if (haveAnIdleAerospaceLab && haveAnIdleBarracks) {
-                desiredBuilding = RobotType.HQ; // we already have enough production apparently
-            } else if (haveAnIdleAerospaceLab && !haveAnIdleBarracks) {
-                desiredBuilding = RobotType.BARRACKS; // barracks are all busy, build more
-            } else if (haveAnIdleBarracks && !haveAnIdleAerospaceLab) {
-                desiredBuilding = RobotType.AEROSPACELAB; // aerospace labs are all busy, build more
-            } else {
-                // all barracks and aerospace labs are busy
-                if (numAerospaceLabs < numBarracks) {
-                    desiredBuilding = RobotType.AEROSPACELAB;
-                } else {
-                    desiredBuilding = RobotType.BARRACKS;
-                }
-            }
-        }
-        if (supplyDepotsNeeded > numSupplyDepots) {
-            if (rc.getTeamOre() < 1000) {
-                desiredBuilding = RobotType.SUPPLYDEPOT;
-            }
-        }
-        if (Clock.getRoundNum() > rc.getRoundLimit() - 150 && Clock.getRoundNum() <= rc.getRoundLimit() - 100) {
-            desiredBuilding = RobotType.HANDWASHSTATION;
-        }
-        MessageBoard.DESIRED_BUILDING.writeRobotType(desiredBuilding);
-
-        // Debug.indicate("orders", 0, "desiredBuilding = " + desiredBuilding.toString());
-
-        // Choose what units to make
-        boolean makeBashers = false;
-        boolean makeBeavers = false;
-        boolean makeCommanders = false;
-        boolean makeComputers = false;
-        boolean makeDrones = false;
-        boolean makeLaunchers = false;
-        boolean makeMiners = false;
-        boolean makeSoldiers = false;
-        boolean makeTanks = false;
-
-        int numBeaversNeeded = 1;
-        if (numMinerFactories >= 1) numBeaversNeeded = 2;
-        int missingSupplyDepots = 1 + (int) (supplyDepotsNeeded - numSupplyDepots);
-        if (missingSupplyDepots > numBeaversNeeded) numBeaversNeeded = missingSupplyDepots;
-
-        if (numBeavers < numBeaversNeeded) {
-            makeBeavers = true;
-        }
-
-        if (numMiners < 30) {
-            makeMiners = true;
-        }
-
-        if (numDrones < 1) {
-            makeDrones = true;
-        }
-
-        if (rc.getTeamOre() > 600) {
-            makeLaunchers = true;
-            makeSoldiers = true;
-        } else {
-            if (Clock.getRoundNum() < 460) {
-                makeSoldiers = true;
-            } else {
-                if (6 * numLaunchers < numSoldiers) {
-                    makeLaunchers = true;
-                } else {
-                    makeSoldiers = true;
-                }
-            }
-        }
-        if (desiredBuilding == RobotType.SUPPLYDEPOT) {
-            // streaming soldiers can delay supply depots by using up all the ore
-            if (rc.getTeamOre() < RobotType.SUPPLYDEPOT.oreCost + 0.5 * RobotType.SOLDIER.oreCost * numBarracks) {
-                makeSoldiers = false;
-            }
-        }
-
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.BASHER, makeBashers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMMANDER, makeCommanders);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMPUTER, makeComputers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.DRONE, makeDrones);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.LAUNCHER, makeLaunchers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.MINER, makeMiners);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.SOLDIER, makeSoldiers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.TANK, makeTanks);
-
-        if (makeBeavers) {
-            if (rc.isCoreReady()) trySpawnBeaver();
-        }
-
-        setRallyLoc();
-    }
-
-    private static void directStrategyPureLaunchers() throws GameActionException {
-        RobotType desiredBuilding;
-
-        // Choose what building to make
-        if (numMinerFactories < 1) {
-            desiredBuilding = RobotType.MINERFACTORY;
-        } else if (numHelipads < 1) {
-            desiredBuilding = RobotType.HELIPAD;
-        } else if (numAerospaceLabs < 2) {
-            desiredBuilding = RobotType.AEROSPACELAB;
-        } else {
-            if (!haveAnIdleAerospaceLab) {
-                desiredBuilding = RobotType.AEROSPACELAB;
-            } else {
-                desiredBuilding = RobotType.HQ;
-            }
-        }
-        if (supplyDepotsNeeded > numSupplyDepots) {
-            if (rc.getTeamOre() < 1000) {
-                desiredBuilding = RobotType.SUPPLYDEPOT;
-            }
-        }
-        if (Clock.getRoundNum() > rc.getRoundLimit() - 150 && Clock.getRoundNum() <= rc.getRoundLimit() - 100) {
-            desiredBuilding = RobotType.HANDWASHSTATION;
-        }
-        MessageBoard.DESIRED_BUILDING.writeRobotType(desiredBuilding);
-
-        // Debug.indicate("orders", 0, "desiredBuilding = " + desiredBuilding.toString());
-
-        // Choose what units to make
-        boolean makeBashers = false;
-        boolean makeBeavers = false;
-        boolean makeCommanders = false;
-        boolean makeComputers = false;
-        boolean makeDrones = false;
-        boolean makeLaunchers = false;
-        boolean makeMiners = false;
-        boolean makeSoldiers = false;
-        boolean makeTanks = false;
-
-        int numBeaversNeeded = 1;
-        if (numMinerFactories >= 1) numBeaversNeeded = 2;
-        int missingSupplyDepots = 1 + (int) (supplyDepotsNeeded - numSupplyDepots);
-        if (missingSupplyDepots > numBeaversNeeded) numBeaversNeeded = missingSupplyDepots;
-
-        if (numBeavers < numBeaversNeeded) {
-            makeBeavers = true;
-        }
-
-        if (numMiners < 30) {
-            makeMiners = true;
-        }
-
-        if (numDrones < 1) {
-            makeDrones = true;
-        }
-
-        makeLaunchers = true;
-
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.BASHER, makeBashers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMMANDER, makeCommanders);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.COMPUTER, makeComputers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.DRONE, makeDrones);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.LAUNCHER, makeLaunchers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.MINER, makeMiners);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.SOLDIER, makeSoldiers);
-        MessageBoard.CONSTRUCTION_ORDERS.writeConstructionOrder(RobotType.TANK, makeTanks);
-
-        if (makeBeavers) {
-            if (rc.isCoreReady()) trySpawnBeaver();
-        }
-
-        setRallyLoc();
-    }
-
+    
     private static void setRallyLoc() throws GameActionException {
         // Choose the rally point
         attackMode = true;

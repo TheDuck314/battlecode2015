@@ -1,4 +1,4 @@
-package zephyr24_optionalcommander;
+package zephyr25_supply;
 
 import battlecode.common.*;
 
