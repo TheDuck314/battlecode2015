@@ -25,3 +25,8 @@ BotSoldier.java, BotTank.java, and Harass.java are unused in my final bot and ar
 #### Other versions
 
 My sprint bot is in teams/sprint5_breakties. My seeding bot is in teams/seeding. The rest of the folders in teams/ are various intermediate or testing versions.
+
+#### Other Battlecode 2015 repositories
+
+* [anim0ls](https://bitbucket.org/jdshen/battlecode-2015) (3rd place)
+* [Fragments of Hologram Rose](https://github.com/3urningChrome/battlecode2015)
