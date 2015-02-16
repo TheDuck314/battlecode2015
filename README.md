@@ -29,4 +29,6 @@ My sprint bot is in teams/sprint5_breakties. My seeding bot is in teams/seeding.
 #### Other Battlecode 2015 repositories
 
 * [anim0ls](https://bitbucket.org/jdshen/battlecode-2015) (3rd place)
+* [Fox](https://github.com/dchoi2/BattleCode2015) (9th-12th place)
+* [Ayyyyyyyylmao](https://github.com/awojnowski/Battlecode2015) (13th-16th place)
 * [Fragments of Hologram Rose](https://github.com/3urningChrome/battlecode2015)
